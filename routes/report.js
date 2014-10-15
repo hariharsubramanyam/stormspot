@@ -106,7 +106,7 @@ router.post("/make", function(req, res) {
  *  result: true (if there is no error).
  * }
  */
-router.post("/delete", function(res, err) {
+router.post("/delete", function(req, res) {
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
@@ -121,7 +121,7 @@ router.post("/delete", function(res, err) {
     },
     // Step 3: Delete the report.
     function(args, user_id, callback) {
-      Report.remove({"poster": user_id, "report_id": report_id}, function(err) {
+      Report.remove({"poster": user_id, "report_id": args.report_id}, function(err) {
         if (err) send_error(res, err);
         else send_response(res, true);
       });
