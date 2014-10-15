@@ -8,7 +8,7 @@
 
 var express = require("express");
 var async = require("async");
-var UserAuth = require("../models/user_auth").UserAuth;
+var User = require("../models/user").User;
 var Session = require("../models/session").Session;
 var constants = require("../models/constants");
 var route_helper = require("./route_helper");
@@ -39,7 +39,7 @@ router.post("/login", function(req, res) {
     function(args, callback) {
       var username = args.username;
       var password = args.password;
-      UserAuth.findOne({"username": username}, function(err, result) {
+      User.findOne({"username": username}, function(err, result) {
         if (err) send_error(res, err);
         if (result) {
           callback(null, password, result);
@@ -109,7 +109,7 @@ router.post("/register", function(req, res) {
     },
     // Step 3: Check if the username already exists.
     function(username, password, callback) {
-      UserAuth.findOne({"username": username}, function(err, result) {
+      User.findOne({"username": username}, function(err, result) {
         if (err) send_error(res, err); 
         if (result) {
           send_error(res, "Username already in use!");
@@ -127,7 +127,7 @@ router.post("/register", function(req, res) {
     },
     // Step 5: Add the user.
     function(username, hash_password, callback) {
-      var new_user = new UserAuth({
+      var new_user = new User({
         "username": username,
         "hash_password": hash_password
       });
