@@ -1,4 +1,11 @@
-// This file defines some helper methods that routes can use.
+/**
+ * This file defines some helper functions that routes can use.
+ *
+ * send_err: Sends an error response to the client.
+ * send_response: Sends a non-error response to the client.
+ * get_post_args: Extracts arguments from the POST body.
+ * is_authenticated: Checks whether the user is authenticated.
+ */
 
 var Session = require("../models/session").Session;
 
