@@ -1,4 +1,8 @@
-// This class creates the UserAuth model, which associates a username with a hashed password.
+/**
+ * This file defines the UserAuth model. There is exactly one UserAuth document for each user.
+ *
+ * Each UserAuth contains a username and a hash of their password.
+ */
 
 var mongoose = require("mongoose");
 

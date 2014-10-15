@@ -1,8 +1,14 @@
-// This file creates the Session model, which keeps track of usernames and their associated session
-// ids.
+/**
+ * This file creates the Session model, which stores a session for a given user.
+ */
 
 var mongoose = require("mongoose");
 
+/**
+ * The Session schema consists of a user (which is a pointer to a UserAuth model) and a session_id
+ * which is a unique string identifying this particular session. The session_id values should
+ * be randomly generated.
+ */
 var SessionSchema = mongoose.Schema({
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'UserAuth'},
   session_id: {type: String, index: true, unique: true}
