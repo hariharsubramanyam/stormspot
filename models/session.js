@@ -4,7 +4,7 @@
 var mongoose = require("mongoose");
 
 var SessionSchema = mongoose.Schema({
-  username: {type: String, index: true, unique: true},
+  user: {type: mongoose.Schema.Types.ObjectId, ref: 'UserAuth'},
   session_id: {type: String, index: true, unique: true}
 });
 var Session = mongoose.model("Session", SessionSchema);

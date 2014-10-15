@@ -42,33 +42,33 @@ router.post("/login", function(req, res) {
       UserAuth.findOne({"username": username}, function(err, result) {
         if (err) send_error(res, err);
         if (result) {
-          callback(null, username, password, result.hash_password);
+          callback(null, password, result);
         } else {
           send_error(res, "Username not found!");
         } 
       }); 
     }, 
     // Step 3: Check if the passwords match.
-    function(username, password, hash_password, callback) {
-      bcrypt.compare(password, hash_password, function(err, is_match) {
+    function(password, user, callback) {
+      bcrypt.compare(password, user.hash_password, function(err, is_match) {
         if (err) send_error(res, err);
         if (is_match) {
-          callback(null, username);
+          callback(null, user);
         } else {
           send_error(res, "The password is incorrect!");
         }
       });
     },
     // Step 4: Remove old sessions.
-    function(username, callback) {
-      Session.remove({"username": username}, function(err, result) {
+    function(user, callback) {
+      Session.remove({"user": user._id}, function(err, result) {
         if (err) send_error(res, err);
-        callback(null, username);
+        callback(null, user);
       });
     },
     // Step 5: Create a new session.
-    function(username, callback) {
-      var session = new Session({"username": username, "session_id": uuid.v4()});
+    function(user, callback) {
+      var session = new Session({"user": user._id, "session_id": uuid.v4()});
       session.save(function(err, result) {
         if (err) send_error(res, err);
         send_response(res, result.session_id);
@@ -97,10 +97,14 @@ router.post("/register", function(req, res) {
     function(args, callback) {
       var username = args.username;
       var password = args.password;
-      if (username.length <= 5 || password.length <= 5) {
-        send_error(res, "The username and password must be over 5 chars long");
-      } else {
-        callback(null, username, password);
+      try {
+        if (username.length <= 5 || password.length <= 5) {
+          send_error(res, "The username and password must be over 5 chars long");
+        } else {
+          callback(null, username, password);
+        }
+      } catch(err) {
+          send_error(res, "Invalid username or password");
       }
     },
     // Step 3: Check if the username already exists.
@@ -130,12 +134,12 @@ router.post("/register", function(req, res) {
 
       new_user.save(function(err, result) {
         if (err) send_error(res, err);
-        callback(null, username);
+        callback(null, result);
       });
     },
     // Step 6: Create a session for the user.
-    function(username, callback) {
-      var session = new Session({"username": username, "session_id": uuid.v4()});
+    function(user, callback) {
+      var session = new Session({"user": user._id, "session_id": uuid.v4()});
       session.save(function(err, result) {
         if (err) send_error(res, err);
         send_response(res, result.session_id);
