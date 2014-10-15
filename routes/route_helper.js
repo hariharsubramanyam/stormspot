@@ -12,7 +12,7 @@ var Session = require("../models/session").Session;
 /**
  * Returns a JSON response to the res of the form:
  * {
-   *  error: the error
+*   error: the error
  * }
  */
 var send_error = function(res, error) {
