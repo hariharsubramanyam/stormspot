@@ -5,10 +5,19 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+/*
+ * Connect to the database.
+ */
+var constants = require("./models/constants");
+var mongoose = require("mongoose");
+mongoose.connect(constants.MONGO_URL);
 
 var app = express();
+
+/*
+ * Define the routes.
+ */
+var auth_route = require('./routes/auth').initialize(mongoose);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,8 +30,11 @@ app.use(bodyParser.urlencoded());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+/*
+ * Set up the routes.
+ */
+app.use('/auth', auth_route);
+
 
 /// catch 404 and forward to error handler
 app.use(function(req, res, next) {
