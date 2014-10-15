@@ -13,6 +13,7 @@
 var express = require("express");
 var async = require("async");
 var route_helper = require("./route_helper");
+var uuid = require("node-uuid");
 var Report = require("../models/report").Report;
 var send_error = route_helper.send_error;
 var get_post_args = route_helper.get_post_args;
@@ -79,7 +80,8 @@ router.post("/make", function(req, res) {
         "location": [args.lon, args.lat],
         "upvoters": [],
         "downvoters": [],
-        "content": args.content
+        "content": args.content,
+        "report_id": uuid.v4()
       });
 
       report.save(function(err, result) {
@@ -89,6 +91,44 @@ router.post("/make", function(req, res) {
     }
   ]);
 });
+
+/**
+ * Deletes a report with the given ID.
+ *
+ * The request is a POST. The body must contain:
+ *
+ * session_id: The session id of the user making the delete.
+ * report_id: The id of the report to delete.
+ *
+ * The response is:
+ * {
+ *  error: An error message, or null if there is no error.
+ *  result: true (if there is no error).
+ * }
+ */
+router.post("/delete", function(res, err) {
+  async.waterfall([
+    // Step 1: Authenticate the user.
+    function(callback) {
+      authenticate(req, res, callback);
+    },
+    // Step 2: Extract parameters from the POST body.
+    function(user_id, callback) {
+      get_post_args(req, res, ["report_id"], function(err, args) {
+        if (err) send_error(res, err);
+        callback(null, args, user_id);
+      });
+    },
+    // Step 3: Delete the report.
+    function(args, user_id, callback) {
+      Report.remove({"poster": user_id, "report_id": report_id}, function(err) {
+        if (err) send_error(res, err);
+        else send_response(res, true);
+      });
+    }
+  ]);
+});
+
 
 module.exports.initialize = function(_mongoose) {
   mongoose = _mongoose;

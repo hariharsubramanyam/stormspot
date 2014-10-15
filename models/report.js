@@ -15,6 +15,7 @@ var StormType = require("./storm_type").StormType;
 /**
  * The schema consists of:
  *
+ * report_id: The id of the report (should be a randomly generated UUID)
  * poster: The ObjectId of the User who posted this report.
  * posted: The Date when this report was posted.
  * posted_from: The location where this report was posted from.
@@ -25,6 +26,7 @@ var StormType = require("./storm_type").StormType;
  * content: The text content of the report.
  */
 var ReportSchema = mongoose.Schema({
+  report_id: {type: String, index: true, unique: true},
   poster: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   posted: {type: Date, default: Date.now},
   posted_from: {type: [Number], index: '2dsphere'},
