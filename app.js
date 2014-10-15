@@ -18,6 +18,7 @@ var app = express();
  * Define the routes.
  */
 var auth_route = require('./routes/auth').initialize(mongoose);
+var report_route = require('./routes/report').initialize(mongoose);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  * Set up the routes.
  */
 app.use('/auth', auth_route);
+app.use('/report', report_route);
 
 
 /// catch 404 and forward to error handler

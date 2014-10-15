@@ -27,7 +27,7 @@ var StormType = require("./storm_type").StormType;
 var ReportSchema = mongoose.Schema({
   poster: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   posted: {type: Date, default: Date.now},
-  posted_from: location: {type: [Number], index: '2dsphere'},
+  posted_from: {type: [Number], index: '2dsphere'},
   upvoters: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
   downvoters: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
   storm_type: StormType,

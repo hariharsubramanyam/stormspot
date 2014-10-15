@@ -18,7 +18,7 @@ module.exports.WIND = WIND;
 module.exports.STRONG_THUNDERSTORM = STRONG_THUNDERSTORM;
 module.exports.HAIL = HAIL;
 module.exports.TORNADO = TORNADO;
-module.exports.OTHER = OTHER:
+module.exports.OTHER = OTHER;
 
 // Define the storm type to be a String in the enum [[WIND, STRONG_THUNDERSTORM, HAIL, TORNADO, 
 // OTHER]

@@ -8,6 +8,7 @@
  */
 
 var Session = require("../models/session").Session;
+var async = require("async");
 
 /**
  * Returns a JSON response to the res of the form:
@@ -73,18 +74,19 @@ var get_post_args = function(req, res, params, callback) {
 };
 
 /**
- * Helper function to check if user is authenticated.
+ * Helper function to authenticate a user.
  *
  * @param req - The request. The body of the request must contain a session_id parameter.
  * @param res - The response. If the session_id is not valid, then server responds to the user with
  * {
  *  error: "The session_id is not valid" (or "The POST body must contain a 'session_id' parameter")
  * }
- * @param cb - The callback function, which is executed as cb(err) where err is an
- *                   error message, or null if there is no error.
+ * @param cb - The callback function, which is executed as cb(err, user_id) where err is an
+ *                   error message, or null if there is no error. The user_id is the ObjectId
+ *                   of the User who is associated with this session. 
  *
  */
-var is_authenticated = function(req, res, cb) {
+var authenticate = function(req, res, cb) {
   async.waterfall([
     // Step 1: Ensure that session_id is in the POST body.
     function(callback) {
@@ -95,7 +97,7 @@ var is_authenticated = function(req, res, cb) {
       Session.findOne({"session_id": args.session_id}, function(err, result) {
         if (err) send_error(res, err);
         if (result) {
-          cb(null);
+          cb(null, result);
         } else {
           send_error(res, "The session_id is not valid");
         }
@@ -107,4 +109,4 @@ var is_authenticated = function(req, res, cb) {
 module.exports.send_error = send_error;
 module.exports.send_response = send_response;
 module.exports.get_post_args = get_post_args;
-module.exports.is_authenticated = is_authenticated;
+module.exports.authenticate = authenticate;
