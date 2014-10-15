@@ -59,9 +59,14 @@ router.post("/make", function(req, res) {
     },
     // Step 3: If a very similar report already exists, don't create another.
     function(args, user_id, callback) {
+      try {
+        args.lat = parseInt(args.lat, 10);
+        args.lon = parseInt(args.lon, 10);
+      } catch (err) {
+        send_error(res, "The lat and lon parameters of the POST body must be numbers");
+      }
       Report.findOne({
-        "lat": args.lat,
-        "lon": args.lon,
+        "posted_from": [args.lon, args.lat],
         "storm_type": args.storm_type,
         "severity_level": args.severity_level,
         "content": args.content
@@ -77,7 +82,7 @@ router.post("/make", function(req, res) {
         "poster": user_id,
         "storm_type": args.storm_type,
         "severity_level": args.severity_level,
-        "location": [args.lon, args.lat],
+        "posted_from": [args.lon, args.lat],
         "upvoters": [],
         "downvoters": [],
         "content": args.content,
