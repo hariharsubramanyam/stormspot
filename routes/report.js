@@ -57,7 +57,8 @@ router.post("/make", function(req, res) {
           callback(null, args, user_id);
         });
     },
-    // Step 3: If a very similar report already exists, don't create another.
+    // Step 3: Conver the lat/lon to numbers. If a very similar report already exists, 
+    // don't create another.
     function(args, user_id, callback) {
       try {
         args.lat = parseInt(args.lat, 10);
@@ -129,6 +130,35 @@ router.post("/delete", function(req, res) {
       Report.remove({"poster": user_id, "report_id": args.report_id}, function(err) {
         if (err) send_error(res, err);
         else send_response(res, true);
+      });
+    }
+  ]);
+});
+
+/**
+ * Returns the reports for the current user.
+ *
+ * The request is a POST. The body must contain:
+ *
+ * session_id: The session id of the user making the delete.
+ *
+ * The response is:
+ * {
+ *  error: An error message, or null if there is no error.
+ *  result: [...] (array of the reports made by this user)
+ * }
+ */
+router.post("/mine", function(req, res) {
+  async.waterfall([
+    // Step 1: Authenticate the user.
+    function(callback) {
+      authenticate(req, res, callback);
+    },
+    // Step 2: Return all the reports made by the current user.
+    function(user_id, callback) {
+      Report.find({"poster": user_id}, function(err, results) {
+        if (err) send_error(res, err);
+        else send_response(res, results);
       });
     }
   ]);
