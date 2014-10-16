@@ -15,6 +15,7 @@ var SeverityLevel = require("./severity_level").SeverityLevel;
 /**
  * The schema consists of:
  *
+ * subscription_id: The unique ID for this subscription (should be a randomly generated UUID)
  * user: The _id of the User object which represents the user who has made this subscription.
  * phone_number: The phone_number to text.
  * severity_level: We only text this user about storms with a severity level >= severity_level
@@ -22,6 +23,7 @@ var SeverityLevel = require("./severity_level").SeverityLevel;
  *           We text the user if there are storms near this location.
  */
 var SubscriptionSchema = mongoose.Schema({
+  subscription_id: {type: String, index: true, unique: true},
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   phone_number: String,
   carrier: Carrier,
