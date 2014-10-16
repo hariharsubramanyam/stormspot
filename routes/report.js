@@ -5,9 +5,6 @@
  * delete - Deletes a report.
  * mine - Returns the reports for the given user.
  * all - Returns all the reports.
- * range - Returns all the reports for a given starting timestamp and ending timestamp.
- * since - Returns all the reports since a given timestamp
- * before - Returns all the reports before a given timestamp
  */
 
 var express = require("express");
@@ -164,6 +161,50 @@ router.post("/mine", function(req, res) {
   ]);
 });
 
+/**
+ * Get all the reports.
+ *
+ * The request is a GET.
+ *
+ * The response is of the form:
+ * {
+ *  error: An error message, or null if there is no error.
+ *  result: [...] (the array of the reports).
+ * }
+ */
+router.get("/all", function(req, res) {
+  Report.find({}, function(err, results) {
+    if (err) send_error(res, err);
+    else send_response(res, results);
+  });
+});
+
+/**
+ * Gets all the reports which are at most a number of minutes old.
+ *
+ * The request is a GET. the :minutes argument is the number of minutes to look back (ex. if 
+ * minutes is 40, we return all reports which are at most 40 minutes old).
+ *
+ * The response is of the form:
+ * {
+ *  error: An error message, or null if there is no error.
+ *  result: [...] (the array of the reports).
+ * }
+ */
+router.get("/latest/:minutes", function(req, res) {
+  try {
+    var minutes = parseInt(req.params.minutes, 10);
+    var timestamp = (new Date()).getTime() - minutes * 60 * 1000;
+    timestamp = Math.max(0, timestamp);
+    var date = new Date(timestamp);
+    Report.find({"posted": {"$gte": date}}, function(err, results) {
+      if (err) send_error(res, err);
+      else send_response(res, results);
+    });
+  } catch (err) {
+    send_error(res, "The URL must take the form /latest/:minutes, where minutes is a number");
+  }
+});
 
 module.exports.initialize = function(_mongoose) {
   mongoose = _mongoose;
