@@ -18,7 +18,7 @@ var StormType = require("./storm_type").StormType;
  * report_id: The id of the report (should be a randomly generated UUID)
  * poster: The ObjectId of the User who posted this report.
  * posted: The Date when this report was posted.
- * posted_from: The location where this report was posted from.
+ * posted_from: The location (as GeoJSON) where this report was posted from.
  * upvoters: An array of ObjectIds of the Users who upvoted this report.
  * downvoters: An array of ObjectIds of the Users who downvoted this report.
  * storm_type: The type of the storm (see ./storm_type.js)

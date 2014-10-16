@@ -15,13 +15,14 @@ var SeverityLevel = require("./severity_level").SeverityLevel;
  * user: The _id of the User object which represents the user who has made this subscription.
  * phone_number: The phone_number to text.
  * severity_level: We only text this user about storms with a severity level >= severity_level
- * location: This is the user's location. We text the user if there are storms near this location.
+ * location: This is the user's location (as GeoJSON). 
+ *           We text the user if there are storms near this location.
  */
 var SubscriptionSchema = mongoose.Schema({
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   phone_number: String,
   severity_level: SeverityLevel,
-  location: {type: [Number], index: '2dsphere'}
+  location: {type: Object, index: '2dsphere'}
 });
 var Subscription = mongoose.model("Subscription", SubscriptionSchema);
 
