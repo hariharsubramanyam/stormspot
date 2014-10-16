@@ -5,7 +5,6 @@
  * delete - Deletes a subscription.
  * update - Updates a subscription.
  * mine - Returns all the subscriptions for a given user.
- * near - Returns all subscriptions near a given location.
  */
 
 var express = require("express");
@@ -185,6 +184,53 @@ router.post("/update", function(req, res){
           }
         });
       }
+    }
+  ]);
+});
+
+/**
+ * Delete the subscription with the given ID.
+ *
+ * The request is a POST. The body must contain:
+ *
+ * session_id: The session id of the user making the delete.
+ * subscription_id: The id of the subscription to delete.
+ *
+ * The response is:
+ * {
+ *  error: An error message, or null if there is no error.
+ *  result: true (if there is no error).
+ * }
+ */
+router.post("/delete", function(req, res) {
+  async.waterfall([
+    // Step 1: Authenticate the user.
+    function(callback) {
+      authenticate(req, res, callback);
+    },
+    // Step 2: Extract parameters from the POST body.
+    function(user_id, callback) {
+      get_post_args(req, res, ["subscription_id"], function(err, args) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          callback(null, args, user_id);
+        }
+      });
+    },
+    // Step 3: Delete the report.
+    function(args, user_id, callback) {
+      Subscription.remove({"user": user_id, "subscription_id": args.subscription_id}, 
+      function(err) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, true);
+          callback(null);
+        }
+      });
     }
   ]);
 });
