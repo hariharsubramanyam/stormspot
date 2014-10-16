@@ -7,6 +7,7 @@
  * all - Returns all the reports.
  * latest/:minutes - Returns all the reports at most :minutes minutes old.
  * near/:lat/:lon/:distance - Returns all the reports that are within :distance miles of :lat, :lon
+ * view/:id - Return the report with the given ID.
  */
 
 var express = require("express");
@@ -297,6 +298,28 @@ router.get("/near/:lat/:lon/:distance", function(req, res) {
     var error = "The latitude, longitude, and distance must be numbers.";
     send_error(res, error);
   }
+});
+
+/**
+ * View the report with the given ID.
+ *
+ * The request has an :id part of the URL, which is the report id.
+ *
+ * The response will take the form:
+ * {
+ *  error: An error message, or null if there is no error
+ *  result: The report.
+ * }
+ */
+router.get("/view/:id", function(req, res) {
+  var id = req.params.id;
+  Report.find({"report_id": id}, function(err, results) {
+    if (err) {
+      send_error(res, err);
+    } else {
+      send_response(res, results);
+    }
+  }); 
 });
 
 module.exports.initialize = function(_mongoose) {
