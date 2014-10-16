@@ -40,38 +40,54 @@ router.post("/login", function(req, res) {
       var username = args.username;
       var password = args.password;
       User.findOne({"username": username}, function(err, result) {
-        if (err) send_error(res, err);
-        if (result) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else if (result) {
           callback(null, password, result);
         } else {
-          send_error(res, "Username not found!");
+          var error = "Username not found";
+          send_error(res, error);
+          callback(error);
         } 
       }); 
     }, 
     // Step 3: Check if the passwords match.
     function(password, user, callback) {
       bcrypt.compare(password, user.hash_password, function(err, is_match) {
-        if (err) send_error(res, err);
-        if (is_match) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else if (is_match) {
           callback(null, user);
         } else {
-          send_error(res, "The password is incorrect!");
+          var error = "The password is incorrect!";
+          send_error(res, error);
         }
       });
     },
     // Step 4: Remove old sessions.
     function(user, callback) {
       Session.remove({"user": user._id}, function(err, result) {
-        if (err) send_error(res, err);
-        callback(null, user);
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          callback(null, user);
+        }
       });
     },
     // Step 5: Create a new session.
     function(user, callback) {
       var session = new Session({"user": user._id, "session_id": uuid.v4()});
       session.save(function(err, result) {
-        if (err) send_error(res, err);
-        send_response(res, result.session_id);
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, result.session_id);
+          callback(null);
+        }
       });
     }
   ]);
@@ -99,20 +115,26 @@ router.post("/register", function(req, res) {
       var password = args.password;
       try {
         if (username.length <= 5 || password.length <= 5) {
-          send_error(res, "The username and password must be over 5 chars long");
+          var error = "The username and password must be over 5 chars long";
+          send_error(res, error);
+          callback(error);
         } else {
           callback(null, username, password);
         }
       } catch(err) {
-          send_error(res, "Invalid username or password");
+        var error = "Invalid username or password";
+        send_error(res, error);
       }
     },
     // Step 3: Check if the username already exists.
     function(username, password, callback) {
       User.findOne({"username": username}, function(err, result) {
-        if (err) send_error(res, err); 
-        if (result) {
-          send_error(res, "Username already in use!");
+        if (err) {
+          send_error(res, err); 
+          callback(err);
+        } else if (result) {
+          var error = "Username already in use!";
+          send_error(res, error);
         } else {
           callback(null, username, password);
         } 
@@ -121,8 +143,12 @@ router.post("/register", function(req, res) {
     // Step 4: Create a hashed password.
     function(username, password, callback) {
       bcrypt.hash(password, constants.SALT, function(err, hash_password) {
-        if (err) send_error(res, err); 
-        callback(null, username, hash_password);
+        if (err) {
+          send_error(res, err); 
+          callback(err);
+        } else {
+          callback(null, username, hash_password);
+        }
       });
     },
     // Step 5: Add the user.
@@ -133,16 +159,25 @@ router.post("/register", function(req, res) {
       });
 
       new_user.save(function(err, result) {
-        if (err) send_error(res, err);
-        callback(null, result);
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          callback(null, result);
+        }
       });
     },
     // Step 6: Create a session for the user.
     function(user, callback) {
       var session = new Session({"user": user._id, "session_id": uuid.v4()});
       session.save(function(err, result) {
-        if (err) send_error(res, err);
-        send_response(res, result.session_id);
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, result.session_id);
+          callback(null);
+        }
       });
     }
   ]); 
@@ -170,11 +205,18 @@ router.post("/logout", function(req, res) {
       var session_id = args.session_id;
       try {
         Session.remove({"session_id": session_id}, function(err, result) {
-          if (err) send_error(res, err);
-          send_response(res, true);
+          if (err) {
+            send_error(res, err);
+            callback(err);
+          } else {
+            send_response(res, true);
+            callback(null);
+          }
         });
       } catch(err) {
-        send_error(res, "Error in searching for session_id");
+        var error = "Error in searching for session_id";
+        send_error(res, error);
+        callback(error);
       }
     }
   ]);
