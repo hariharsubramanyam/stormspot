@@ -5,7 +5,9 @@
  * delete - Deletes a report.
  * mine - Returns the reports for the given user.
  * all - Returns all the reports.
- * latest/:minutes - Returns all the reports at most 'minutes' minutes old.
+ * latest/:minutes - Returns all the reports at most :minutes minutes old.
+ * near/:lat/:lon/:distance - Returns all the reports that are within :distance miles of :lat,
+ *                            :lon
  */
 
 var express = require("express");
@@ -59,13 +61,16 @@ router.post("/make", function(req, res) {
     // don't create another.
     function(args, user_id, callback) {
       try {
-        args.lat = parseInt(args.lat, 10);
-        args.lon = parseInt(args.lon, 10);
+        args.lat = parseFloat(args.lat, 10);
+        args.lon = parseFloat(args.lon, 10);
       } catch (err) {
         send_error(res, "The lat and lon parameters of the POST body must be numbers");
       }
       Report.findOne({
-        "posted_from": [args.lon, args.lat],
+        "posted_from": {
+          "type": "Point",
+          "coordinates": [args.lon, args.lat]
+        },
         "storm_type": args.storm_type,
         "severity_level": args.severity_level,
         "content": args.content
@@ -81,7 +86,10 @@ router.post("/make", function(req, res) {
         "poster": user_id,
         "storm_type": args.storm_type,
         "severity_level": args.severity_level,
-        "posted_from": [args.lon, args.lat],
+        "posted_from": {
+          "type": "Point",
+          "coordinates": [args.lon, args.lat]
+        },
         "upvoters": [],
         "downvoters": [],
         "content": args.content,
@@ -203,7 +211,29 @@ router.get("/latest/:minutes", function(req, res) {
       else send_response(res, results);
     });
   } catch (err) {
-    send_error(res, "The URL must take the form /latest/:minutes, where minutes is a number");
+    send_error(res, "The minutes must be a number.");
+  }
+});
+
+router.get("/near/:lat/:lon/:distance", function(req, res) {
+  try {
+    var lat = parseFloat(req.params.lat, 10);
+    var lon = parseFloat(req.params.lon, 10);
+    var distance = parseFloat(req.params.distance, 10);
+    
+    // Convert miles to meters.
+    var NUM_METERS_IN_MILE = 1609.34;
+    distance = distance * NUM_METERS_IN_MILE;
+    Report.find({"posted_from": {"$near": {
+      "$maxDistance": distance,
+      "$geometry": {"type": "Point", "coordinates": [lon, lat] }
+    }}}, 
+    function(err, results) {
+      if (err) send_error(res, err);
+      else send_response(res, results);
+    });
+  } catch(err) {
+    send_error(res, "The latitude, longitude, and distance must be numbers.");
   }
 });
 
