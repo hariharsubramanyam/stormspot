@@ -7,6 +7,9 @@
 var mongoose = require("mongoose");
 
 // Include the SeverityLevel type.
+var Carrier = require("./carrier").Carrier;
+
+// Include the SeverityLevel type.
 var SeverityLevel = require("./severity_level").SeverityLevel;
 
 /**
@@ -21,6 +24,7 @@ var SeverityLevel = require("./severity_level").SeverityLevel;
 var SubscriptionSchema = mongoose.Schema({
   user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   phone_number: String,
+  carrier: Carrier,
   severity_level: SeverityLevel,
   location: {type: Object, index: '2dsphere'}
 });
