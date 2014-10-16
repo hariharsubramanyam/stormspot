@@ -67,7 +67,7 @@ router.post("/make", function(req, res) {
 
       subscription.save(function(err, result) {
         if(err) send_error(res, err);
-        send_responce(res, result);
+        send_response(res, result);
       });
     }
   ]);
