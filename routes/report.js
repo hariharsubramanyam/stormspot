@@ -6,8 +6,7 @@
  * mine - Returns the reports for the given user.
  * all - Returns all the reports.
  * latest/:minutes - Returns all the reports at most :minutes minutes old.
- * near/:lat/:lon/:distance - Returns all the reports that are within :distance miles of :lat,
- *                            :lon
+ * near/:lat/:lon/:distance - Returns all the reports that are within :distance miles of :lat, :lon
  */
 
 var express = require("express");
@@ -215,6 +214,20 @@ router.get("/latest/:minutes", function(req, res) {
   }
 });
 
+/**
+ * Returns the reports that are within a given distance of a specific latitude and longitude. 
+ *
+ * The request must have:
+ * :lat = latitude
+ * :lon = longitude
+ * :distance = the distance, in miles.
+ *
+ * The response is:
+ * {
+ *  error: An error message, or null if there is no error
+ *  result: [...] (the array of reports)
+ * }
+ */
 router.get("/near/:lat/:lon/:distance", function(req, res) {
   try {
     var lat = parseFloat(req.params.lat, 10);
