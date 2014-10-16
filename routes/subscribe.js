@@ -1,5 +1,11 @@
 /**
- * TODO
+ * This file defines the routes for subscriptions.
+ *
+ * make - Makes a subscription.
+ * delete - Deletes a subscription.
+ * update - Updates a subscription.
+ * mine - Returns all the subscriptions for a given user.
+ * near - Returns all subscriptions near a given location.
  */
 
 var express = require("express");

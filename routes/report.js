@@ -66,7 +66,8 @@ router.post("/make", function(req, res) {
         send_error(res, "The lat and lon parameters of the POST body must be numbers");
       }
       Report.findOne({
-        "posted_from": {
+        "posted_from.type": "Point",
+        "posted_from.coordinates": [args.lon, args.lat],
           "type": "Point",
           "coordinates": [args.lon, args.lat]
         },
