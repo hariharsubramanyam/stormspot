@@ -5,6 +5,7 @@
  * delete - Deletes a report.
  * mine - Returns the reports for the given user.
  * all - Returns all the reports.
+ * latest/:minutes - Returns all the reports at most 'minutes' minutes old.
  */
 
 var express = require("express");
