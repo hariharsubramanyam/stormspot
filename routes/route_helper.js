@@ -63,14 +63,16 @@ var send_response = function(res, result) {
 var get_post_args = function(req, res, params, callback) {
   var param_name;
   var args = {};
+  var error = null;
   for (var i = 0; i < params.length; i++) {
     param_name = params[i];
     if (req.body[param_name] === undefined) {
-      send_error(res, "The POST body must contain a '" + param_name + "' parameter");
+      error = "The POST body must contain a '" + param_name + "' parameter";
+      send_error(res, error);
     }
     args[param_name] = req.body[param_name];
   }
-  callback(null, args);
+  callback(error, args);
 };
 
 /**
@@ -95,11 +97,15 @@ var authenticate = function(req, res, cb) {
     // Step 2: Ensure that the session_id is valid.
     function(args, callback) {
       Session.findOne({"session_id": args.session_id}, function(err, result) {
-        if (err) send_error(res, err);
-        if (result) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else if (result) {
           cb(null, result);
         } else {
-          send_error(res, "The session_id is not valid");
+          var error = "The session_id is not valid";
+          send_error(res, error);
+          callback(error);
         }
       });
     }

@@ -68,9 +68,6 @@ router.post("/make", function(req, res) {
       Report.findOne({
         "posted_from.type": "Point",
         "posted_from.coordinates": [args.lon, args.lat],
-          "type": "Point",
-          "coordinates": [args.lon, args.lat]
-        },
         "storm_type": args.storm_type,
         "severity_level": args.severity_level,
         "content": args.content
