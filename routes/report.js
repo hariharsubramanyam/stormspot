@@ -52,30 +52,48 @@ router.post("/make", function(req, res) {
         "storm_type", 
         "severity_level", 
         "content"], function(err, args) {
-          if (err) send_error(res, err);
-          callback(null, args, user_id);
+          if (err) {
+            send_error(res, err);
+            callback(err);
+          } else {
+            callback(null, args, user_id);
+          }
         });
     },
     // Step 3: Conver the lat/lon to numbers. If a very similar report already exists, 
     // don't create another.
     function(args, user_id, callback) {
+      var error = null;
       try {
         args.lat = parseFloat(args.lat, 10);
         args.lon = parseFloat(args.lon, 10);
       } catch (err) {
-        send_error(res, "The lat and lon parameters of the POST body must be numbers");
+        error = "The lat and lon parameters of the POST body must be numbers";
+        send_error(res, error);
+        callback(error);
       }
-      Report.findOne({
-        "posted_from.type": "Point",
-        "posted_from.coordinates": [args.lon, args.lat],
-        "storm_type": args.storm_type,
-        "severity_level": args.severity_level,
-        "content": args.content
-      }, function(err, result) {
-        if (err) send_error(res, err);
-        if (result) send_error(res, "This report already exists!");
-        else callback(null, args, user_id);
-      });
+      if (!error) {
+        Report.findOne({
+          "posted_from.type": "Point",
+          "posted_from.coordinates": [args.lon, args.lat],
+          "storm_type": args.storm_type,
+          "severity_level": args.severity_level,
+          "content": args.content
+        }, function(err, result) {
+          if (err) {
+            send_error(res, err);
+            callback(err);
+          }
+          else if (result) {
+            error = "This report already exists!";
+            send_error(res, error);
+            callback(error);
+          }
+          else {
+            callback(null, args, user_id);
+          }
+        });
+      }
     },
     // Step 4: Create the report. 
     function(args, user_id, callback) {
@@ -94,8 +112,13 @@ router.post("/make", function(req, res) {
       });
 
       report.save(function(err, result) {
-        if (err) send_error(res, err);
-        send_response(res, result);
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, result);
+          callback(null);
+        }
       });
     }
   ]);
@@ -124,15 +147,24 @@ router.post("/delete", function(req, res) {
     // Step 2: Extract parameters from the POST body.
     function(user_id, callback) {
       get_post_args(req, res, ["report_id"], function(err, args) {
-        if (err) send_error(res, err);
-        callback(null, args, user_id);
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          callback(null, args, user_id);
+        }
       });
     },
     // Step 3: Delete the report.
     function(args, user_id, callback) {
       Report.remove({"poster": user_id, "report_id": args.report_id}, function(err) {
-        if (err) send_error(res, err);
-        else send_response(res, true);
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, true);
+          callback(null);
+        }
       });
     }
   ]);
@@ -160,8 +192,13 @@ router.post("/mine", function(req, res) {
     // Step 2: Return all the reports made by the current user.
     function(user_id, callback) {
       Report.find({"poster": user_id}, function(err, results) {
-        if (err) send_error(res, err);
-        else send_response(res, results);
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, results);
+          callback(null);
+        }
       });
     }
   ]);
@@ -180,8 +217,11 @@ router.post("/mine", function(req, res) {
  */
 router.get("/all", function(req, res) {
   Report.find({}, function(err, results) {
-    if (err) send_error(res, err);
-    else send_response(res, results);
+    if (err) {
+      send_error(res, err);
+    } else {
+      send_response(res, results);
+    }
   });
 });
 
@@ -204,11 +244,18 @@ router.get("/latest/:minutes", function(req, res) {
     timestamp = Math.max(0, timestamp);
     var date = new Date(timestamp);
     Report.find({"posted": {"$gte": date}}, function(err, results) {
-      if (err) send_error(res, err);
-      else send_response(res, results);
+      if (err) {
+        send_error(res, err);
+        callback(err);
+      } else {
+        send_response(res, results);
+        callback(null);
+      }
     });
   } catch (err) {
-    send_error(res, "The minutes must be a number.");
+    var error = "The minutes must be a number.";
+    send_error(res, error);
+    callback(error);
   }
 });
 
@@ -240,11 +287,15 @@ router.get("/near/:lat/:lon/:distance", function(req, res) {
       "$geometry": {"type": "Point", "coordinates": [lon, lat] }
     }}}, 
     function(err, results) {
-      if (err) send_error(res, err);
-      else send_response(res, results);
+      if (err) {
+        send_error(res, err);
+      } else {
+        send_response(res, results);
+      }
     });
   } catch(err) {
-    send_error(res, "The latitude, longitude, and distance must be numbers.");
+    var error = "The latitude, longitude, and distance must be numbers.";
+    send_error(res, error);
   }
 });
 
