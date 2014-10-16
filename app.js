@@ -19,6 +19,8 @@ var app = express();
  */
 var auth_route = require('./routes/auth').initialize(mongoose);
 var report_route = require('./routes/report').initialize(mongoose);
+var subscribe_route = require('./routes/subscribe').initialize(mongoose);
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,6 +38,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 app.use('/auth', auth_route);
 app.use('/report', report_route);
+app.use('/subscribe', subscribe_route);
 
 
 /// catch 404 and forward to error handler
