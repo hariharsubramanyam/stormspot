@@ -275,6 +275,27 @@ router.post("/delete", function(req, res) {
   ]);
 });
 
+router.post("/mine", function(req, res) {
+  async.waterfall([
+    // Step 1: Authenticate the user.
+    function(callback) {
+      authenticate(req, res, callback);
+    },
+    // Step 2: Return all the subscriptions for the current user.
+    function(user_id, callback) {
+      Subscription.find({"poster": user_id}, function(err, results) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, results);
+          callback(null);
+        }
+      });
+    }
+  ])
+});
+
 module.exports.initialize = function(_mongoose) {
   mongoose = _mongoose;
   return router;
