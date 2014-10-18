@@ -12,7 +12,7 @@ var sendMail = function(to, subject, text){
 
   var mailOptions = {
     from: "stormspot6170@gmail.com",
-    to: to,
+    bcc: to,
     subject: subject,
     text: text
   };

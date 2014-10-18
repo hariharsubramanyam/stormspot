@@ -142,7 +142,7 @@ router.post("/", function(req, res) {
             emails.push(subscription.phone_number + "@" + subscription.carrier);
           });
           var to = emails.join(",");
-          var subject = "Alert";
+          var subject = "StormSpot Alert";
           var text = "There has been a report of a storm near (" 
             + report.posted_from.coordinates[0] + "," + report.posted_from.coordinates[1]
             + ") with severity level " + report.severity_level + ".";
