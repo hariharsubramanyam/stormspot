@@ -391,7 +391,7 @@ router.put("/upvote/:report_id", function(req, res) {
  *  result: true (if there is no error).
  * }
  */
-router.put("/upvote/:report_id", function(req, res) {
+router.put("/downvote/:report_id", function(req, res) {
   var report_id = req.params.report_id;
   async.waterfall([
     // Step 1: Authenticate the user.
@@ -421,7 +421,7 @@ router.put("/upvote/:report_id", function(req, res) {
           send_error(res, err);
           callback(err);
         } else {
-          send_response(res, result);
+          send_response(res, true);
           callback(null);
         }
       });
@@ -471,7 +471,7 @@ router.put("/novote/:report_id", function(req, res) {
           send_error(res, err);
           callback(err);
         } else {
-          send_response(res, result);
+          send_response(res, true);
           callback(null);
         }
       });
