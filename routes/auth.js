@@ -1,9 +1,9 @@
 /**
  * This file defines the routes for authentication.
  *
- * (POST) login - Logs the user in.
- * (POST) register - Registers a new user.
- * (DELETE) logout - Logs the user out.
+ * (POST) /auth/login - Logs the user in.
+ * (POST) /auth/register - Registers a new user.
+ * (DELETE) /auth/logout - Logs the user out.
  */
 var express = require("express");
 var async = require("async");

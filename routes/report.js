@@ -1,13 +1,14 @@
 /**
  * This file defines the routes for reports.
  *
- * make - Makes a report.
- * delete - Deletes a report.
- * mine - Returns the reports for the given user.
- * all - Returns all the reports.
- * latest/:minutes - Returns all the reports at most :minutes minutes old.
- * near/:lat/:lon/:distance - Returns all the reports that are within :distance miles of :lat, :lon
- * view/:id - Return the report with the given ID.
+ * (POST) /report - Makes a report.
+ * (DELETE) /report/:report_id - Deletes a report.
+ * (GET) /report/mine- Returns the reports for the given user.
+ * (GET) /report/all - Returns all the reports.
+ * (GET) /report/latest/:minutes - Returns all the reports at most :minutes minutes old.
+ * (GET) /report/near/:lat/:lon/:distance - Returns all the reports that are within :distance 
+ *                                          miles of :lat, :lon
+ * (GET) /report/:report_id - Return the report with the given ID.
  */
 
 var express = require("express");
@@ -31,12 +32,13 @@ var mongoose;
  *
  * The request must be a POST, and the body must contain:
  *
- * session_id: The session id of the user making the report.
  * lat: The latitude of the location of the report.
  * lon: The longitude of the location of the report.
  * severity_level: Must be one of the constants defined in ../models/severity_level.js
  * storm_type: Must be one of the constants defined in ../models/storm_type.js
  * content: The text content of the report.
+ *
+ * The session_id must be a cookie.
  *
  * The response is of the form:
  * {
@@ -44,7 +46,7 @@ var mongoose;
  *  result: The object that represents the report.
  * }
  */
-router.post("/make", function(req, res) {
+router.post("/", function(req, res) {
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
@@ -151,10 +153,8 @@ router.post("/make", function(req, res) {
 /**
  * Deletes a report with the given ID.
  *
- * The request is a POST. The body must contain:
- *
- * session_id: The session id of the user making the delete.
- * report_id: The id of the report to delete.
+ * The session_id must be a cookie. The report_id in the URL is the ID of the report
+ * to delete.
  *
  * The response is:
  * {
@@ -162,26 +162,15 @@ router.post("/make", function(req, res) {
  *  result: true (if there is no error).
  * }
  */
-router.post("/delete", function(req, res) {
+router.delete("/:report_id", function(req, res) {
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
       authenticate(req, res, callback);
     },
-    // Step 2: Extract parameters from the POST body.
+    // Step 2: Delete the report.
     function(user_id, callback) {
-      get_post_args(req, res, ["report_id"], function(err, args) {
-        if (err) {
-          send_error(res, err);
-          callback(err);
-        } else {
-          callback(null, args, user_id);
-        }
-      });
-    },
-    // Step 3: Delete the report.
-    function(args, user_id, callback) {
-      Report.remove({"poster": user_id, "report_id": args.report_id}, function(err) {
+      Report.remove({"poster": user_id, "report_id": req.params.report_id}, function(err) {
         if (err) {
           send_error(res, err);
           callback(err);
@@ -197,9 +186,7 @@ router.post("/delete", function(req, res) {
 /**
  * Returns the reports for the current user.
  *
- * The request is a POST. The body must contain:
- *
- * session_id: The session id of the user making the delete.
+ * The session_id must be a cookie.
  *
  * The response is:
  * {
@@ -207,7 +194,7 @@ router.post("/delete", function(req, res) {
  *  result: [...] (array of the reports made by this user)
  * }
  */
-router.post("/mine", function(req, res) {
+router.get("/mine", function(req, res) {
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
@@ -230,8 +217,6 @@ router.post("/mine", function(req, res) {
 
 /**
  * Get all the reports.
- *
- * The request is a GET.
  *
  * The response is of the form:
  * {
@@ -270,16 +255,13 @@ router.get("/latest/:minutes", function(req, res) {
     Report.find({"posted": {"$gte": date}}, function(err, results) {
       if (err) {
         send_error(res, err);
-        callback(err);
       } else {
         send_response(res, results);
-        callback(null);
       }
     });
   } catch (err) {
     var error = "The minutes must be a number.";
     send_error(res, error);
-    callback(error);
   }
 });
 
@@ -334,7 +316,7 @@ router.get("/near/:lat/:lon/:distance", function(req, res) {
  *  result: The report.
  * }
  */
-router.get("/view/:id", function(req, res) {
+router.get("/:id", function(req, res) {
   var id = req.params.id;
   Report.find({"report_id": id}, function(err, results) {
     if (err) {
