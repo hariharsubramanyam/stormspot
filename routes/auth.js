@@ -5,7 +5,6 @@
  * register - Registers a new user.
  * logout - Logs the user out.
  */
-
 var express = require("express");
 var async = require("async");
 var User = require("../models/user").User;

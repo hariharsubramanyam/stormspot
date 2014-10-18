@@ -10,6 +10,7 @@
 var express = require("express");
 var async = require("async");
 var route_helper = require("./route_helper");
+var mailer = require("./mailer");
 var uuid = require("node-uuid");
 var Subscription = require("../models/subscription").Subscription;
 var send_error = route_helper.send_error;
@@ -41,10 +42,12 @@ router.post("/make", function(req, res) {
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
+      console.log("Step 1");
       authenticate(req, res, callback);
     },
     //Step 2: Extract parameters form the POST body.
     function(user_id, callback) {
+      console.log("Step 2");
       get_post_args(req, res, ["phone_number",
         "carrier", 
         "severity_level",
@@ -108,9 +111,20 @@ router.post("/make", function(req, res) {
           callback(err);
         } else {
           send_response(res, result);
-          callback(null);
+          callback(null, args);
         }
       });
+    },
+    //Step 5: Send confirmation message of the subscription
+    function(args, callback) {
+      var to = args.phone_number + "@" + args.carrier;
+      var subject = "Confirmation";
+      var text = "You have succesfully subscribed to receive alerts of "
+        + "weather conditions of severity level of at least " + args.severity_level
+        + " near the location ( " + args.lat + ","
+        + args.lon + ").";
+      mailer.mail(to, subject, text);
+      callback(null);
     }
   ]);
 });
@@ -184,6 +198,17 @@ router.post("/update", function(req, res){
           }
         });
       }
+    },
+    // Step 4: Send confirmation message of a successful update
+    function(args, callback) {
+      var to = args.phone_number + "@" + args.carrier;
+      var subject = "Confirmation";
+      var text = "You have succesfully updated you subscription to receive alerts of "
+        + "weather conditions of severity level of at least " + args.severity_level
+        + " near the location ( " + args.lat + ","
+        + args.lon + ").";
+      mailer.mail(to, subject, text);
+      callback(null);
     }
   ]);
 });
@@ -219,7 +244,22 @@ router.post("/delete", function(req, res) {
         }
       });
     },
-    // Step 3: Delete the report.
+    // Step 3: Find the subscription and send a confirmation message
+    // of a successful delete
+    function(args, user_id, callback){
+      Subscription.findOne({"user": user_id, "subscription_id": args.subscription_id}, 
+        function(err, subscription){
+          var to = subscription.phone_number + "@" + subscription.carrier;
+          var subject = "Confirm delete"
+          var text = "You have successfully deleted your subscription to "
+            + subscription.phone_number + " at the location: (" 
+            + subscription.location.coordinates[0] + ','
+            + subscription.location.coordinates[1] + ').';
+          mailer.mail(to, subject, text);
+      });
+      callback(null, args, user_id);
+    },
+    // Step 4: Delete the report.
     function(args, user_id, callback) {
       Subscription.remove({"user": user_id, "subscription_id": args.subscription_id}, 
       function(err) {

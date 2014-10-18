@@ -10,3 +10,8 @@ module.exports.MONGO_URL = "mongodb://localhost/stormspot";
  * This is the salt used when hashing passwords.
  */
 module.exports.SALT = 10;
+/**
+ * This is the radius in which subscribers will receive
+ * alerts of nearby storms.
+ */
+module.exports.MAX_RADIUS = 10;

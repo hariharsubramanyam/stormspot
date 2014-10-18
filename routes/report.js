@@ -13,8 +13,11 @@
 var express = require("express");
 var async = require("async");
 var route_helper = require("./route_helper");
+var mailer = require("./mailer");
 var uuid = require("node-uuid");
 var Report = require("../models/report").Report;
+var Subscription = require("../models/subscription").Subscription;
+var constants = require("../models/constants");
 var send_error = route_helper.send_error;
 var get_post_args = route_helper.get_post_args;
 var send_response = route_helper.send_response;
@@ -118,8 +121,26 @@ router.post("/make", function(req, res) {
           callback(err);
         } else {
           send_response(res, result);
-          callback(null);
+          callback(null, report);
         }
+      });
+    },
+    // Step 5: Warn all relevant subscribers about the new report
+    function(report, callback){
+      Subscription.find({"location": {$near: report.posted_from, $maxDistance: constants.MAX_RADIUS}},
+        function(err, subscriptions){
+          var emails = [];
+          subscriptions.forEach(function(subscription){
+            emails.push(subscription.phone_number + "@" + subscription.carrier);
+          });
+          var to = emails.join(",");
+          var subject = "Alert";
+          var text = "There has been a report of a storm near (" 
+            + report.posted_from.coordinates[0] + "," + report.posted_from.coordinates[1]
+            + ") with severity level " + report.severity_level + ".";
+          if(emails.length > 0){
+            mailer.mail(to, subject, text);
+          }
       });
     }
   ]);
