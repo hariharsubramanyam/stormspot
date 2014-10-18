@@ -16,7 +16,11 @@ module.exports.NORMAL = NORMAL;
 module.exports.SEVERE = SEVERE;
 module.exports.DESTRUCTIVE = DESTRUCTIVE;
 
-// Helper functions for severity
+/**
+ * Helper function for getting the severities less than or equal to a given severity level.
+ *
+ * For instance, the severities NORMAL and SEVERE are both less than or equal to SEVERE.
+ */
 var lte = {};
 lte[NORMAL] = [NORMAL];
 lte[SEVERE] = [NORMAL, SEVERE];
