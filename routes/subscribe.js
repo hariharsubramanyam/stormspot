@@ -1,10 +1,10 @@
 /**
  * This file defines the routes for subscriptions.
  *
- * make - Makes a subscription.
- * delete - Deletes a subscription.
- * update - Updates a subscription.
- * mine - Returns all the subscriptions for a given user.
+ * (POST) /subscribe - Makes a subscription.
+ * (DELETE) /subscribe/:subscription_id - Deletes a subscription.
+ * (PUT) /subscribe/:subscription_id - Updates a subscription.
+ * (GET) /subscribe - Returns all the subscriptions for a given user.
  */
 
 var express = require("express");
@@ -25,12 +25,13 @@ var mongoose;
  *
  * The request must be a POST, and the body must contain:
  *
- * session_id: The session id of the user making the report.
  * lat: The latitude of the location to monitor for the subscription.
  * lon: The longitude of the location to monitor for the subscription.
  * severity_level: Only notify the user about storms with severity >= severity_level
  * carrier: The email domain of the carrier of the user's phone (see ../models/carrier.js)
  * phone_number: The 10 digit phone number for the user.
+ *
+ * The session_id must be a cookie.
  *
  * The response is of the form:
  * {
@@ -38,16 +39,14 @@ var mongoose;
  *  result: The object that represents the subscription.
  * }
  */
-router.post("/make", function(req, res) {
+router.post("/", function(req, res) {
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
-      console.log("Step 1");
       authenticate(req, res, callback);
     },
     //Step 2: Extract parameters form the POST body.
     function(user_id, callback) {
-      console.log("Step 2");
       get_post_args(req, res, ["phone_number",
         "carrier", 
         "severity_level",
@@ -132,9 +131,8 @@ router.post("/make", function(req, res) {
 /**
  * Updates a subscription for the given user.
  *
- * The request must be a POST, and the body must contain:
+ * The request must be a PUT, and the body must contain:
  *
- * session_id: The session id of the user making the report.
  * subscription_id: The subscription id we aim to update.
  * lat: The latitude of the location to monitor for the subscription.
  * lon: The longitude of the location to monitor for the subscription.
@@ -142,13 +140,15 @@ router.post("/make", function(req, res) {
  * carrier: The email domain of the carrier of the user's phone (see ../models/carrier.js)
  * phone_number: The 10 digit phone number for the user.
  *
+ * The session_id must be a cookie.
+ *
  * The response is of the form:
  * {
  *  error: An error message, or null if there is no error,
  *  result: true (if no error occured)
  * }
  */
-router.post("/update", function(req, res){
+router.put("/:subscription_id", function(req, res){
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
@@ -159,9 +159,13 @@ router.post("/update", function(req, res){
       get_post_args(req, res, ["phone_number",
         "carrier",
         "severity_level",
-        "subscription_id",
         "lat", "lon"],
         function(err, args) {
+          var subscription_id = req.params.subscription_id;
+          if (subscription_id === null || subscription_id === undefined) {
+            err = "The URL must be of the form /subscribe/subscription_id";
+          }
+          args.subscription_id = subscription_id;
           if(err) {
             send_error(res, err);
             callback(err);
@@ -194,7 +198,7 @@ router.post("/update", function(req, res){
             callback(err);
           } else {
             send_response(res, true);
-            callback(null);
+            callback(null, args);
           }
         });
       }
@@ -216,10 +220,9 @@ router.post("/update", function(req, res){
 /**
  * Delete the subscription with the given ID.
  *
- * The request is a POST. The body must contain:
+ * The session_id must be a cookie.
  *
- * session_id: The session id of the user making the delete.
- * subscription_id: The id of the subscription to delete.
+ * The subscription_id must be in the URL.
  *
  * The response is:
  * {
@@ -227,7 +230,7 @@ router.post("/update", function(req, res){
  *  result: true (if there is no error).
  * }
  */
-router.post("/delete", function(req, res) {
+router.delete("/:subscription_id", function(req, res) {
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
@@ -235,33 +238,38 @@ router.post("/delete", function(req, res) {
     },
     // Step 2: Extract parameters from the POST body.
     function(user_id, callback) {
-      get_post_args(req, res, ["subscription_id"], function(err, args) {
-        if (err) {
-          send_error(res, err);
-          callback(err);
-        } else {
-          callback(null, args, user_id);
-        }
-      });
+      var subscription_id = req.params.subscription_id;
+      if (subscription_id === undefined || subscription_id === null) {
+        var error = "The URL must contain a subscription_id";
+        send_error(res, error);
+        callback(error);
+      } else  {
+        callback(null, subscription_id, user_id);
+      }
     },
     // Step 3: Find the subscription and send a confirmation message
     // of a successful delete
-    function(args, user_id, callback){
-      Subscription.findOne({"user": user_id, "subscription_id": args.subscription_id}, 
+    function(subscription_id, user_id, callback){
+      Subscription.findOne({"user": user_id, "subscription_id": subscription_id}, 
         function(err, subscription){
-          var to = subscription.phone_number + "@" + subscription.carrier;
-          var subject = "Confirm delete"
-          var text = "You have successfully deleted your subscription to "
-            + subscription.phone_number + " at the location: (" 
-            + subscription.location.coordinates[0] + ','
-            + subscription.location.coordinates[1] + ').';
-          mailer.mail(to, subject, text);
+          if (err) {
+            send_error(res, err);
+            callback(err);
+          } else {
+            var to = subscription.phone_number + "@" + subscription.carrier;
+            var subject = "Confirm delete"
+            var text = "You have successfully deleted your subscription to "
+              + subscription.phone_number + " at the location: (" 
+              + subscription.location.coordinates[0] + ','
+              + subscription.location.coordinates[1] + ').';
+            mailer.mail(to, subject, text);
+            callback(null, subscription_id, user_id);
+          }
       });
-      callback(null, args, user_id);
     },
     // Step 4: Delete the report.
-    function(args, user_id, callback) {
-      Subscription.remove({"user": user_id, "subscription_id": args.subscription_id}, 
+    function(subscription_id, user_id, callback) {
+      Subscription.remove({"user": user_id, "subscription_id": subscription_id}, 
       function(err) {
         if (err) {
           send_error(res, err);
@@ -275,7 +283,18 @@ router.post("/delete", function(req, res) {
   ]);
 });
 
-router.post("/mine", function(req, res) {
+/**
+ * Gets all the subscriptions for the current user.
+ *
+ * The session_id must be a cookie.
+ *
+ * The response is:
+ * {
+ *  error: An error message, or null if there is no error.
+ *  result: [...] (an array of the subscriptions).
+ * }
+ */
+router.get("/", function(req, res) {
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
@@ -283,7 +302,7 @@ router.post("/mine", function(req, res) {
     },
     // Step 2: Return all the subscriptions for the current user.
     function(user_id, callback) {
-      Subscription.find({"poster": user_id}, function(err, results) {
+      Subscription.find({"user": user_id}, function(err, results) {
         if (err) {
           send_error(res, err);
           callback(err);
