@@ -9,6 +9,9 @@
  * (GET) /report/near/:lat/:lon/:distance - Returns all the reports that are within :distance 
  *                                          miles of :lat, :lon
  * (GET) /report/:report_id - Return the report with the given ID.
+ * (PUT) /report/upvote/:report_id - Upvotes the given report_id
+ * (PUT) /report/downvote/:report_id - Downvotes the given report_id.
+ * (PUT) /report/novote/:report_id - Removes any upvotes or downvotes on the given report.
  */
 
 var express = require("express");
@@ -17,6 +20,7 @@ var route_helper = require("./route_helper");
 var mailer = require("../util/mailer");
 var uuid = require("node-uuid");
 var Report = require("../models/report").Report;
+var User = require("../models/user").User;
 var severity_level = require("../models/severity_level");
 var Subscription = require("../models/subscription").Subscription;
 var constants = require("../models/constants");
@@ -308,7 +312,7 @@ router.get("/near/:lat/:lon/:distance", function(req, res) {
 /**
  * View the report with the given ID.
  *
- * The request has an :id part of the URL, which is the report id.
+ * The request has an :report_id part of the URL, which is the report id.
  *
  * The response will take the form:
  * {
@@ -316,15 +320,163 @@ router.get("/near/:lat/:lon/:distance", function(req, res) {
  *  result: The report.
  * }
  */
-router.get("/:id", function(req, res) {
-  var id = req.params.id;
-  Report.find({"report_id": id}, function(err, results) {
+router.get("/:report_id", function(req, res) {
+  var report_id = req.params.report_id;
+  Report.find({"report_id": report_id}, function(err, results) {
     if (err) {
       send_error(res, err);
     } else {
       send_response(res, results);
     }
   }); 
+});
+
+/**
+ * Upvote the report with the given report id.
+ *
+ * The request must have a session_id cookie and have the report id in the URL (:report_id).
+ *
+ * The response will take the form:
+ * {
+ *  error: An error message, or null if there is no error.
+ *  result: true (if there is no error).
+ * }
+ */
+router.put("/upvote/:report_id", function(req, res) {
+  var report_id = req.params.report_id;
+  async.waterfall([
+    // Step 1: Authenticate the user.
+    function(callback) {
+      authenticate(req, res, callback);
+    },
+    // Step 2: Find the username for the given user_id
+    function(user_id, callback) {
+      User.findOne({"_id": user_id}, function(err, result) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          callback(null, result.username);
+        }
+      });
+    },
+    // Step 2: Update the downvoters and upvoters.
+    function(username, callback) {
+      Report.update({"report_id": report_id},
+      {
+        "$addToSet": {"upvoters": username},
+        "$pull": {"downvoters": username}
+      },
+      function(err, result) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, true);
+          callback(null);
+        }
+      });
+    }
+  ]);
+});
+
+/**
+ * Downvotes the report with the given report id.
+ *
+ * The request must have a session_id cookie and have the report id in the URL (:report_id).
+ *
+ * The response will take the form:
+ * {
+ *  error: An error message, or null if there is no error.
+ *  result: true (if there is no error).
+ * }
+ */
+router.put("/upvote/:report_id", function(req, res) {
+  var report_id = req.params.report_id;
+  async.waterfall([
+    // Step 1: Authenticate the user.
+    function(callback) {
+      authenticate(req, res, callback);
+    },
+    // Step 2: Find the username for the given user_id
+    function(user_id, callback) {
+      User.findOne({"_id": user_id}, function(err, result) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          callback(null, result.username);
+        }
+      });
+    },
+    // Step 2: Update the downvoters and upvoters.
+    function(username, callback) {
+      Report.update({"report_id": report_id},
+      {
+        "$addToSet": {"downvoters": username},
+        "$pull": {"upvoters": username}
+      },
+      function(err, result) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, result);
+          callback(null);
+        }
+      });
+    }
+  ]);
+});
+
+/**
+ * Removes any upvotes or downvotes that the current user has made on 
+ * the report with the given report id.
+ *
+ * The request must have a session_id cookie and have the report id in the URL (:report_id).
+ *
+ * The response will take the form:
+ * {
+ *  error: An error message, or null if there is no error.
+ *  result: true (if there is no error).
+ * }
+ */
+router.put("/novote/:report_id", function(req, res) {
+  var report_id = req.params.report_id;
+  async.waterfall([
+    // Step 1: Authenticate the user.
+    function(callback) {
+      authenticate(req, res, callback);
+    },
+    // Step 2: Find the username for the given user_id
+    function(user_id, callback) {
+      User.findOne({"_id": user_id}, function(err, result) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          callback(null, result.username);
+        }
+      });
+    },
+    // Step 2: Update the downvoters and upvoters.
+    function(username, callback) {
+      Report.update({"report_id": report_id},
+      {
+        "$pull": {"downvoters": username},
+        "$pull": {"upvoters": username}
+      },
+      function(err, result) {
+        if (err) {
+          send_error(res, err);
+          callback(err);
+        } else {
+          send_response(res, result);
+          callback(null);
+        }
+      });
+    }
+  ]);
 });
 
 module.exports.initialize = function(_mongoose) {

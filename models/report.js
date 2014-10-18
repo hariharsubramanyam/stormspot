@@ -30,8 +30,8 @@ var ReportSchema = mongoose.Schema({
   poster: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
   posted: {type: Date, default: Date.now},
   posted_from: {type: Object, index: '2dsphere'},
-  upvoters: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
-  downvoters: [{type: mongoose.Schema.Types.ObjectId, ref: "User"}],
+  upvoters: [String],
+  downvoters: [String],
   storm_type: StormType,
   severity_level: SeverityLevel,
   content: String
