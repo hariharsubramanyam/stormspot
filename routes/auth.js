@@ -1,9 +1,9 @@
 /**
  * This file defines the routes for authentication.
  *
- * login - Logs the user in.
- * register - Registers a new user.
- * logout - Logs the user out.
+ * (POST) login - Logs the user in.
+ * (POST) register - Registers a new user.
+ * (DELETE) logout - Logs the user out.
  */
 var express = require("express");
 var async = require("async");
@@ -30,6 +30,8 @@ var mongoose;
  *  error: An error message, or null if there is no error.
  *  result: The session id string (if there is no error).
  * }
+ *
+ * It also sets a session_id cookie.
  */
 router.post("/login", function(req, res) {
   async.waterfall([
@@ -99,13 +101,15 @@ router.post("/login", function(req, res) {
 /**
  * Registers a new user.
  *
- * The request has  POST body which must contain a "username" and "password".
+ * The request has a POST body which must contain a "username" and "password".
  *
  * The response is:
  * {
  *  error: An error message (or null if there is no error).
  *  result: The session_id string (if there is no error).
  * }
+ *
+ * It also sets a session_id cookie.
  */
 router.post("/register", function(req, res) {
   async.waterfall([
