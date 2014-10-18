@@ -3,7 +3,7 @@
  *
  * (POST) /report - Makes a report.
  * (DELETE) /report/:report_id - Deletes a report.
- * (GET) /report/mine- Returns the reports for the given user.
+ * (GET) /report - Returns the reports for the given user.
  * (GET) /report/all - Returns all the reports.
  * (GET) /report/latest/:minutes - Returns all the reports at most :minutes minutes old.
  * (GET) /report/near/:lat/:lon/:distance - Returns all the reports that are within :distance 
@@ -198,7 +198,7 @@ router.delete("/:report_id", function(req, res) {
  *  result: [...] (array of the reports made by this user)
  * }
  */
-router.get("/mine", function(req, res) {
+router.get("/", function(req, res) {
   async.waterfall([
     // Step 1: Authenticate the user.
     function(callback) {
