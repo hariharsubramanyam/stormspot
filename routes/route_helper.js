@@ -92,11 +92,16 @@ var authenticate = function(req, res, cb) {
   async.waterfall([
     // Step 1: Ensure that session_id is in the POST body.
     function(callback) {
-      get_post_args(req, res, ["session_id"], callback);
+      var session_id = req.cookies["session_id"];
+      if (session_id === null || session_id === undefined) {
+        send_error(res, "There must be session_id cookie");
+      } else {
+        callback(null, session_id);
+      }
     },
     // Step 2: Ensure that the session_id is valid.
-    function(args, callback) {
-      Session.findOne({"session_id": args.session_id}, function(err, result) {
+    function(session_id, callback) {
+      Session.findOne({"session_id": session_id}, function(err, result) {
         if (err) {
           send_error(res, err);
           callback(err);

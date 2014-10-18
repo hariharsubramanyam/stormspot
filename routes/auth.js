@@ -79,6 +79,7 @@ router.post("/login", function(req, res) {
     // Step 5: Create a new session.
     function(user, callback) {
       var session = new Session({"user": user._id, "session_id": uuid.v4()});
+      res.cookie("session_id", session.session_id);
       session.save(function(err, result) {
         if (err) {
           send_error(res, err);
