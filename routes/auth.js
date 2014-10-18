@@ -14,6 +14,7 @@ var route_helper = require("./route_helper");
 var send_error = route_helper.send_error;
 var get_post_args = route_helper.get_post_args;
 var send_response = route_helper.send_response;
+var authenticate = route_helper.authenticate;
 var bcrypt = require("bcrypt");
 var uuid = require("node-uuid");
 var router = express.Router();
@@ -21,8 +22,10 @@ var mongoose;
 
 /**
  * Logs a user in.
- * @param req - POST body must include a 'username' and 'password'.
- * @param res - The result is: 
+ * 
+ * The request has a POST body that must include a "username" and "password".
+ *
+ * The response is:
  * {
  *  error: An error message, or null if there is no error.
  *  result: The session id string (if there is no error).
@@ -96,8 +99,9 @@ router.post("/login", function(req, res) {
 /**
  * Registers a new user.
  *
- * @param req - The POST body must contain a 'username' and 'password'.
- * @param res - Result is 
+ * The request has  POST body which must contain a "username" and "password".
+ *
+ * The response is:
  * {
  *  error: An error message (or null if there is no error).
  *  result: The session_id string (if there is no error).
@@ -170,6 +174,7 @@ router.post("/register", function(req, res) {
     // Step 6: Create a session for the user.
     function(user, callback) {
       var session = new Session({"user": user._id, "session_id": uuid.v4()});
+      res.cookie("session_id", session.session_id);
       session.save(function(err, result) {
         if (err) {
           send_error(res, err);
@@ -187,8 +192,9 @@ router.post("/register", function(req, res) {
 /**
  * Logs a user out.
  *
- * @param req - The request body must contain a 'session_id'
- * @param res - The result is 
+ * The request must have a session_id cookie.
+ *
+ * The response is:
  * {
  *  error: The error message (or null if there is no error)
  *  result: true (if there is no error).
@@ -198,17 +204,17 @@ router.post("/logout", function(req, res) {
   async.waterfall([
     // Step 1: Ensure that session_id is in the POST body.
     function(callback) {
-      get_post_args(req, res, ["session_id"], callback);
+      authenticate(req, res, callback);
     },
     // Step 2: Delete the session_id.
-    function(args, callback) {
-      var session_id = args.session_id;
+    function(session_id, callback) {
       try {
         Session.remove({"session_id": session_id}, function(err, result) {
           if (err) {
             send_error(res, err);
             callback(err);
           } else {
+            res.clearCookie("session_id");
             send_response(res, true);
             callback(null);
           }
