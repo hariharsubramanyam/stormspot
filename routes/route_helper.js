@@ -106,7 +106,7 @@ var authenticate = function(req, res, cb) {
           send_error(res, err);
           callback(err);
         } else if (result) {
-          cb(null, result);
+          cb(null, result.user);
         } else {
           var error = "The session_id is not valid";
           send_error(res, error);

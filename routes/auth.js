@@ -200,16 +200,16 @@ router.post("/register", function(req, res) {
  *  result: true (if there is no error).
  * }
  */
-router.post("/logout", function(req, res) {
+router.delete("/logout", function(req, res) {
   async.waterfall([
     // Step 1: Ensure that session_id is in the POST body.
     function(callback) {
       authenticate(req, res, callback);
     },
     // Step 2: Delete the session_id.
-    function(session_id, callback) {
+    function(user_id, callback) {
       try {
-        Session.remove({"session_id": session_id}, function(err, result) {
+        Session.remove({"user": user_id}, function(err, result) {
           if (err) {
             send_error(res, err);
             callback(err);
