@@ -16,6 +16,7 @@ var route_helper = require("./route_helper");
 var mailer = require("./mailer");
 var uuid = require("node-uuid");
 var Report = require("../models/report").Report;
+var severity_level = require("../models/severity_level");
 var Subscription = require("../models/subscription").Subscription;
 var constants = require("../models/constants");
 var send_error = route_helper.send_error;
@@ -127,7 +128,8 @@ router.post("/make", function(req, res) {
     },
     // Step 5: Warn all relevant subscribers about the new report
     function(report, callback){
-      Subscription.find({"location": {$near: report.posted_from, $maxDistance: constants.MAX_RADIUS}},
+      Subscription.find({"location": {$near: report.posted_from, $maxDistance: constants.MAX_RADIUS},
+      "severity_level": {"$in": severity_level.lte(report.severity_level)}},
         function(err, subscriptions){
           var emails = [];
           subscriptions.forEach(function(subscription){

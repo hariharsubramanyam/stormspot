@@ -16,5 +16,15 @@ module.exports.NORMAL = NORMAL;
 module.exports.SEVERE = SEVERE;
 module.exports.DESTRUCTIVE = DESTRUCTIVE;
 
+// Helper functions for severity
+var lte = {};
+lte[NORMAL] = [NORMAL];
+lte[SEVERE] = [NORMAL, SEVERE];
+lte[DESTRUCTIVE] = [NORMAL, SEVERE, DESTRUCTIVE];
+
+module.exports.lte = function(severity_level) {
+  return lte[severity_level];
+};
+
 // Define the severity level to be a String in the enum [NORMAL, SEVERE, DESTRUCTIVE]
 module.exports.SeverityLevel = {type: String, enum: [NORMAL, SEVERE, DESTRUCTIVE]};
