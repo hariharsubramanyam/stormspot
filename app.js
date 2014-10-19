@@ -20,6 +20,7 @@ var app = express();
 var auth_route = require('./routes/auth').initialize(mongoose);
 var report_route = require('./routes/report').initialize(mongoose);
 var subscribe_route = require('./routes/subscribe').initialize(mongoose);
+var testing_route = require('./routes/testing').initialize(mongoose);
 
 
 // view engine setup
@@ -39,6 +40,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', auth_route);
 app.use('/report', report_route);
 app.use('/subscribe', subscribe_route);
+app.use('/testing', testing_route);
 
 
 /// catch 404 and forward to error handler
@@ -73,4 +75,6 @@ app.use(function(err, req, res, next) {
 });
 
 
+console.log("App listening on post 3000, go to localhost:3000/");
+app.listen(3000);
 module.exports = app;
