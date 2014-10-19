@@ -27,13 +27,28 @@
   var reset = function(callback) {
     // Reset the database.
     $.get("/testing/reset", function() {
-      // Create a test user.
-      $.post("/auth/register", {"username": "tester", "password": "tester"}).done(function(data) {
-        // Store the session_id in a cookie.
-        data = JSON.parse(data);
-        $.cookie("session_id", data.result, {"path": "/"});
-        callback();
+      create_test_user(function() {
+        create_test_report(callback);
       });
     });
+  };
+
+  var create_test_user = function(callback) {
+    $.post("/auth/register", {"username": "tester", "password": "tester"}).done(function(data) {
+      // Store the session_id in a cookie.
+      data = JSON.parse(data);
+      $.cookie("session_id", data.result, {"path": "/"});
+      callback();
+    });
+  };
+
+  var create_test_report = function(callback) {
+    $.post("/report", {
+      "lat": 42,
+      "lon": -72,
+      "severity_level": "SEVERE",
+      "storm_type": "TORNADO",
+      "content": "This is my first report"
+    }).done(callback);
   };
 })();
