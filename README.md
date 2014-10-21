@@ -11,7 +11,7 @@
 2. `cd stormspot`
 3. `npm install`
 4. `npm start`
-5. Navigate your browser to [localhost:8080][http://localhost:8080]
+5. Navigate your browser to [localhost:8080](http://localhost:8080)
 
 ## Description
 
