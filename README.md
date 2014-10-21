@@ -27,192 +27,37 @@ We've implemented the **backend API** for this part of the project. The **fronte
 
 `(DELETE) /auth/logout - Logs the user out.`
 
-```
-    The request must have a session_id cookie.
-
-    The response is:
-    {
-      error: The error message (or null if there is no error)
-      result: true (if there is no error).
-    }
-```
-
 ### Reports
 
 `(POST) /report - Makes a report.`
-```
-    The request must be a POST, and the body must contain:
 
-    lat: The latitude of the location of the report.
-    lon: The longitude of the location of the report.
-    severity_level: Must be one of the constants defined in ../models/severity_level.js
-    storm_type: Must be one of the constants defined in ../models/storm_type.js
-    content: The text content of the report.
+`(DELETE) /report/:report_id - Deletes a report.`
 
-    The session_id must be a cookie.
-```
-    The response is of the form:
-    {
-    error: An error message, or null if there is no error,
-    result: The object that represents the report.
+`(GET) /report - Returns the reports for the given user.`
 
-  (DELETE) /report/:report_id - Deletes a report.
+`(GET) /report/all - Returns all the reports.`
 
-    The session_id must be a cookie. The report_id in the URL is the ID of the report
-    to delete.
+`(GET) /report/latest/:minutes - Returns all the reports at most :minutes minutes old.`
 
-    The response is:
-    {
-      error: An error message, or null if there is no error.
-      result: true (if there is no error).
-    }
+`(GET) /report/near/:lat/:lon/:distance - Returns all the reports that are within :distance miles of :lat, :lon`
 
-  (GET) /report - Returns the reports for the given user.
+`(GET) /report/:report_id - Return the report with the given ID.`
 
-    The session_id must be a cookie.
+`(PUT) /report/upvote/:report_id - Upvotes the given report_id`
 
-    The response is:
-    {
-      error: An error message, or null if there is no error.
-      result: [...] (array of the reports made by this user)
-    }
+`(PUT) /report/downvote/:report_id - Downvotes the given report_id.`
 
-  (GET) /report/all - Returns all the reports.
-
-    The response is of the form:
-    {
-      error: An error message, or null if there is no error.
-      result: [...] (the array of the reports).
-    }
-
-  (GET) /report/latest/:minutes - Returns all the reports at most :minutes minutes old.
-
-    The request is a GET. the :minutes argument is the number of minutes to look back (ex. if
-    minutes is 40, we return all reports which are at most 40 minutes old).
-
-    The response is of the form:
-    {
-      error: An error message, or null if there is no error.
-      result: [...] (the array of the reports).
-    }
-
-  (GET) /report/near/:lat/:lon/:distance - Returns all the reports that are within :distance miles of :lat, :lon
-
-    The request must have:
-    :lat = latitude
-    :lon = longitude
-    :distance = the distance, in miles.
-
-    The response is:
-    {
-      error: An error message, or null if there is no error
-      result: [...] (the array of reports)
-    }
-
-  (GET) /report/:report_id - Return the report with the given ID.
-
-    The request has an :report_id part of the URL, which is the report id.
-
-    The response will take the form:
-    {
-      error: An error message, or null if there is no error
-      result: The report.
-    }
-
-  (PUT) /report/upvote/:report_id - Upvotes the given report_id
-
-    The request must have a session_id cookie and have the report id in the URL (:report_id).
-
-    The response will take the form:
-    {
-      error: An error message, or null if there is no error.
-      result: true (if there is no error).
-    }
-
-  (PUT) /report/downvote/:report_id - Downvotes the given report_id.
-
-    The request must have a session_id cookie and have the report id in the URL (:report_id).
-
-    The response will take the form:
-    {
-      error: An error message, or null if there is no error.
-      result: true (if there is no error).
-    }
-
-  (PUT) /report/novote/:report_id - Removes any upvotes or downvotes on the given report.
-    The request must have a session_id cookie and have the report id in the URL (:report_id).
-
-    The response will take the form:
-    {
-      error: An error message, or null if there is no error.
-      result: true (if there is no error).
-    }
+`(PUT) /report/novote/:report_id - Removes any upvotes or downvotes on the given report.`
 
 ### Subscriptions
 
-  
+`(POST) /subscribe - Makes a subscription.`
 
-    
+`(DELETE) /subscribe/:subscription_id - Deletes a subscription.`
 
-  
+`(PUT) /subscribe/:subscription_id - Updates a subscription.`
 
-
-storm_type.js
-  (POST) /subscribe - Makes a subscription.
-    The request must be a POST, and the body must contain:
-
-    lat: The latitude of the location to monitor for the subscription.
-    lon: The longitude of the location to monitor for the subscription.
-    severity_level: Only notify the user about storms with severity >= severity_level
-    carrier: The email domain of the carrier of the user's phone (see ../models/carrier.js)
-    phone_number: The 10 digit phone number for the user.
-
-    The session_id must be a cookie.
-
-    The response is of the form:
-    {
-      error: An error message, or null if there is no error,
-      result: The object that represents the subscription.
-    }
-  (DELETE) /subscribe/:subscription_id - Deletes a subscription.
-
-    The session_id must be a cookie.
-
-    The subscription_id must be in the URL.
-
-    The response is:
-    {
-      error: An error message, or null if there is no error.
-      result: true (if there is no error).
-    }
-
-  (PUT) /subscribe/:subscription_id - Updates a subscription.
-    The request must be a PUT, and the body must contain:
-
-    subscription_id: The subscription id we aim to update.
-    lat: The latitude of the location to monitor for the subscription.
-    lon: The longitude of the location to monitor for the subscription.
-    severity_level: Only notify the user about storms with severity >= severity_level
-    carrier: The email domain of the carrier of the user's phone (see ../models/carrier.js)
-    phone_number: The 10 digit phone number for the user.
-
-    The session_id must be a cookie.
-
-    The response is of the form:
-    {
-      error: An error message, or null if there is no error,
-      result: true (if no error occured)
-    }
-
-  (GET) /subscribe - Returns all the subscriptions for a given user.
-
-    The session_id must be a cookie.
-
-    The response is:
-    {
-      error: An error message, or null if there is no error.
-      result: [...] (an array of the subscriptions).
-    }
+`(GET) /subscribe - Returns all the subscriptions for a given user.`
 
 //////////////////////////////////////////////////////////////////////////////////////
 
