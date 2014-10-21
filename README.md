@@ -23,7 +23,8 @@ We've implemented the **backend API** for this part of the project. The **fronte
 
 `(POST) /auth/login - Logs the user in.`
 
-```The request has a POST body that must include a "username" and "password".
+```
+The request has a POST body that must include a "username" and "password".
 
     The response is:
     {
@@ -31,19 +32,13 @@ We've implemented the **backend API** for this part of the project. The **fronte
       result: The session id string (if there is no error).
     }
 
-    It also sets a session_id cookie.```
+    It also sets a session_id cookie.
+```
 
-### Reports
+`(POST) /auth/register - Registers a new user.`
 
-### Subscriptions
-
-  
-
-    
-
-  (POST) /auth/register - Registers a new user.
-
-    The request has a POST body which must contain a "username" and "password".
+```
+The request has a POST body which must contain a "username" and "password".
 
     The response is:
     {
@@ -52,9 +47,12 @@ We've implemented the **backend API** for this part of the project. The **fronte
     }
 
     It also sets a session_id cookie.
+```
 
-  (DELETE) /auth/logout - Logs the user out.
 
+`(DELETE) /auth/logout - Logs the user out.`
+
+```
     The request must have a session_id cookie.
 
     The response is:
@@ -62,11 +60,12 @@ We've implemented the **backend API** for this part of the project. The **fronte
       error: The error message (or null if there is no error)
       result: true (if there is no error).
     }
+```
 
-report.js
+### Reports
 
-  (POST) /report - Makes a report.
-
+`(POST) /report - Makes a report.`
+```
     The request must be a POST, and the body must contain:
 
     lat: The latitude of the location of the report.
@@ -76,7 +75,7 @@ report.js
     content: The text content of the report.
 
     The session_id must be a cookie.
-
+```
     The response is of the form:
     {
     error: An error message, or null if there is no error,
@@ -173,6 +172,15 @@ report.js
       error: An error message, or null if there is no error.
       result: true (if there is no error).
     }
+
+### Subscriptions
+
+  
+
+    
+
+  
+
 
 storm_type.js
   (POST) /subscribe - Makes a subscription.
