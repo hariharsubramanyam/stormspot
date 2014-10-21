@@ -23,32 +23,7 @@ We've implemented the **backend API** for this part of the project. The **fronte
 
 `(POST) /auth/login - Logs the user in.`
 
-```
-The request has a POST body that must include a "username" and "password".
-
-    The response is:
-    {
-      error: An error message, or null if there is no error.
-      result: The session id string (if there is no error).
-    }
-
-    It also sets a session_id cookie.
-```
-
 `(POST) /auth/register - Registers a new user.`
-
-```
-The request has a POST body which must contain a "username" and "password".
-
-    The response is:
-    {
-      error: An error message (or null if there is no error).
-      result: The session_id string (if there is no error).
-    }
-
-    It also sets a session_id cookie.
-```
-
 
 `(DELETE) /auth/logout - Logs the user out.`
 
