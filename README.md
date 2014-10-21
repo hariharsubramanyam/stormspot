@@ -7,8 +7,7 @@
 **or**
 
 1. `sudo mongod`
-2. (in separate terminal) 
-`git clone https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3 stormspot`
+2. `git clone https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3 stormspot` (in separate terminal)
 3. `cd stormspot`
 4. `npm install`
 5. `npm start`
