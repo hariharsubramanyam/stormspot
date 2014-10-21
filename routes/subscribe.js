@@ -45,7 +45,7 @@ router.post("/", function(req, res) {
     function(callback) {
       authenticate(req, res, callback);
     },
-    //Step 2: Extract parameters form the POST body.
+    //Step 2: Extract parameters from the POST body.
     function(user_id, callback) {
       get_post_args(req, res, ["phone_number",
         "carrier", 
