@@ -15,7 +15,7 @@
 
 ## Description
 
-We've implemented the **backend API** for this part of the project. The **frontend** (which you see in your browser) currently is a simple test page where can issue requests to the server and see the responses. This is to show that the available API functionality works.
+We've implemented the **backend API** for this part of the project. The **frontend** is currently a simple test page where you can issue requests to the server and see the responses. This is to show that the available API functionality works.
 
 ## API
 
