@@ -1,33 +1,29 @@
-proj3
-=====
+# Project 3: Stormspot
 
-Project 3: Mini team project
+## Usage
 
-Try it out!
-To run our program clone the repository, install the appropriate node packages,
-ensure you're running mondodb, and start the program. You should be able to
-accomplish this by executing the following commands:
+1. Navigate to [http://storm-hariharfritter.rhcloud.com](http://storm-hariharfritter.rhcloud.com)
 
-git clone https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3 <project_name>
+**or**
 
-Then, in root directory of the project, run:
+1. `sudo mongod`
+2. (in separate termninal) `git clone https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3 stormspot`
+2. `cd stormspot`
+3. `npm install`
+4. `npm start`
+5. Navigate your browser to [localhost:8080][http://localhost:8080]
 
-npm install
-sudo mongod
-npm start
+## Description
 
-You can also visit our live version of the project at:
-http://storm-hariharfritter.rhcloud.com/
+We've implemented the **backend API** for this part of the project. The **frontend** (which you see in your browser) currently is a simple test page where can issue requests to the server and see the responses. This is to show that the available API functionality works.
 
-//////////////////////////////////////////////////////////////////////////////////////
+## API
 
-A documentation of our API follows:
+### Authentication
 
-auth.js
+`(POST) /auth/login - Logs the user in.`
 
-  (POST) /auth/login - Logs the user in.
-
-    The request has a POST body that must include a "username" and "password".
+```The request has a POST body that must include a "username" and "password".
 
     The response is:
     {
@@ -35,7 +31,15 @@ auth.js
       result: The session id string (if there is no error).
     }
 
-    It also sets a session_id cookie.
+    It also sets a session_id cookie.```
+
+### Reports
+
+### Subscriptions
+
+  
+
+    
 
   (POST) /auth/register - Registers a new user.
 
