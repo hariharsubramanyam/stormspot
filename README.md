@@ -19,7 +19,7 @@ We've implemented the **backend API** for this part of the project. The **fronte
 
 ## API
 
-### Authentication
+### Authentication (see [`/routes/auth.js`](https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3/blob/master/routes/auth.js))
 
 `(POST) /auth/login` - Logs the user in.
 
@@ -27,7 +27,7 @@ We've implemented the **backend API** for this part of the project. The **fronte
 
 `(DELETE) /auth/logout` - Logs the user out.
 
-### Reports
+### Reports  (see [`/routes/report.js`](https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3/blob/master/routes/report.js))
 
 `(POST) /report` - Makes a report.
 
@@ -49,7 +49,7 @@ We've implemented the **backend API** for this part of the project. The **fronte
 
 `(PUT) /report/novote/:report_id` - Removes any upvotes or downvotes on the given report.
 
-### Subscriptions
+### Subscriptions  (see [`/routes/subscribe.js`](https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3/blob/master/routes/subscribe.js))
 
 `(POST) /subscribe` - Makes a subscription.
 
