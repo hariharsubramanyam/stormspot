@@ -7,11 +7,12 @@
 **or**
 
 1. `sudo mongod`
-2. (in separate terminal) `git clone https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3 stormspot`
-2. `cd stormspot`
-3. `npm install`
-4. `npm start`
-5. Navigate your browser to [localhost:3000](http://localhost:3000)
+2. (in separate terminal) 
+`git clone https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3 stormspot`
+3. `cd stormspot`
+4. `npm install`
+5. `npm start`
+6. Navigate your browser to [localhost:3000](http://localhost:3000)
 
 ## Description
 
