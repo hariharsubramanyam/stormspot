@@ -21,48 +21,45 @@ We've implemented the **backend API** for this part of the project. The **fronte
 
 ### Authentication
 
-`(POST) /auth/login - Logs the user in.`
+`(POST) /auth/login` - Logs the user in.
 
-`(POST) /auth/register - Registers a new user.`
+`(POST) /auth/register` - Registers a new user.
 
-`(DELETE) /auth/logout - Logs the user out.`
+`(DELETE) /auth/logout` - Logs the user out.
 
 ### Reports
 
-`(POST) /report - Makes a report.`
+`(POST) /report` - Makes a report.
 
-`(DELETE) /report/:report_id - Deletes a report.`
+`(DELETE) /report/:report_id` - Deletes a report.
 
-`(GET) /report - Returns the reports for the given user.`
+`(GET) /report` - Returns the reports for the given user.
 
-`(GET) /report/all - Returns all the reports.`
+`(GET) /report/all` - Returns all the reports.
 
-`(GET) /report/latest/:minutes - Returns all the reports at most :minutes minutes old.`
+`(GET) /report/latest/:minutes` - Returns all the reports at most :minutes minutes old.
 
-`(GET) /report/near/:lat/:lon/:distance - Returns all the reports that are within :distance miles of :lat, :lon`
+`(GET) /report/near/:lat/:lon/:distance` - Returns all the reports that are within :distance miles of :lat, :lon
 
-`(GET) /report/:report_id - Return the report with the given ID.`
+`(GET) /report/:report_id` - Return the report with the given ID.
 
-`(PUT) /report/upvote/:report_id - Upvotes the given report_id`
+`(PUT) /report/upvote/:report_id` - Upvotes the given report_id
 
-`(PUT) /report/downvote/:report_id - Downvotes the given report_id.`
+`(PUT) /report/downvote/:report_id` - Downvotes the given report_id.
 
-`(PUT) /report/novote/:report_id - Removes any upvotes or downvotes on the given report.`
+`(PUT) /report/novote/:report_id` - Removes any upvotes or downvotes on the given report.
 
 ### Subscriptions
 
-`(POST) /subscribe - Makes a subscription.`
+`(POST) /subscribe` - Makes a subscription.
 
-`(DELETE) /subscribe/:subscription_id - Deletes a subscription.`
+`(DELETE) /subscribe/:subscription_id` - Deletes a subscription.
 
-`(PUT) /subscribe/:subscription_id - Updates a subscription.`
+`(PUT) /subscribe/:subscription_id` - Updates a subscription.
 
-`(GET) /subscribe - Returns all the subscriptions for a given user.`
+`(GET) /subscribe` - Returns all the subscriptions for a given user.
 
-//////////////////////////////////////////////////////////////////////////////////////
-
-
-In response to the feedback on Github:
+### Response to 3.1 Feedback
 
 Although session might not need to be in our data model, we currently are
 storing all the sessions in case we need them later. Because we are storing
