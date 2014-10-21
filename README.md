@@ -59,7 +59,7 @@ We've implemented the **backend API** for this part of the project. The **fronte
 
 `(GET) /subscribe` - Returns all the subscriptions for a given user.
 
-### Response to 3.1 Feedback
+## Response to 3.1 Feedback
 
 Although session might not need to be in our data model, we currently are
 storing all the sessions in case we need them later. Because we are storing
