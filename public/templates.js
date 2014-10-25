@@ -7,7 +7,7 @@ templates['logout'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function
   return "<button class=\"pretty-button red-btn\">Logout</button>\n";
   },"useData":true});
 templates['marker'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<<<<<<< HEAD\n<div id=\"marker-box\">\n  <button class=\"pretty-button green-btn\" id=\"btn_subscribe\">Subscribe<button> \n  <button class=\"pretty-button red-btn\" id=\"btn_report\">Report</button> \n</div>\n=======\n<h1>Tornado (SEVERE)</h1>\n<h2>2 upvotes, 4 downvotes</h2>\n<p>This is the report content.</p>\n>>>>>>> a851166b3738be36b690e9fa1f777af0ab4e051f\n";
+  return "<div id=\"marker-box\">\n  <button class=\"pretty-button green-btn\" id=\"btn_subscribe\">Subscribe<button> \n  <button class=\"pretty-button red-btn\" id=\"btn_report\">Report</button> \n</div>\n\n";
   },"useData":true});
 templates['subscribe'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<div id=\"login-box\">\n  <h1>Make a subscription!</h1>\n  <input type=\"text\" class=\"pretty-input\" placeholder=\"Phone Number\" id=\"txt_sub_phonenumber\">\n  <br>\n  <button class=\"pretty-button green-btn\" id=\"btn_subscribe\">Subscribe</button>\n</div>";
