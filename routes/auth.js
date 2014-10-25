@@ -2,6 +2,7 @@
  * This file defines the routes for authentication.
  *
  * (POST) /auth/login - Logs the user in.
+ * (GET) /auth/validate - Validates a session id.
  * (POST) /auth/register - Registers a new user.
  * (DELETE) /auth/logout - Logs the user out.
  */
@@ -19,6 +20,25 @@ var bcrypt = require("bcrypt");
 var uuid = require("node-uuid");
 var router = express.Router();
 var mongoose;
+
+/**
+ * Checks that the cookies contain a session_id cookie and that the session_id
+ * is valid.
+ *
+ * The response is:
+ * {
+ *  error: The error message (or null if there is no error),
+ *  result: true (if the session_id is valid)
+ * }
+ * 
+ */
+router.get("/validate", function(req, res) {
+  authenticate(req, res, function(error, user_id) {
+    if (error === null) {
+      send_response(res, true);
+    }
+  });
+});
 
 /**
  * Logs a user in.
