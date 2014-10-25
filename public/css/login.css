@@ -7,11 +7,11 @@
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-#login-div.active #login-box {
+#login-div.active  #login-box {
   position: absolute;
   margin: auto;
   width: 50%;
-  height: 50%;
+  height: 400px;
   top: 0;
   left: 0;
   right: 0;
@@ -21,13 +21,17 @@
   text-align: center;
 }
 
-#login-div button {
+#login-box button {
   margin-top: 10px;
   margin-bottom: 20px;
 }
 
-#login-div .alert {
+#login-box .alert {
   margin-left: 10px;
   margin-right: 10px;
+  visibility: hidden;
 }
 
+#login-box .alert.displayed {
+  visibility: visible;
+}
