@@ -21,15 +21,17 @@
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
+
+
     var markerHTML = $(Handlebars.templates.marker());
     var btn_subscribe = markerHTML.find("#btn_subscribe");
     var btn_report = markerHTML.find("#btn_report");
+    var popup = L.popup().setContent(markerHTML.html());
 
     //Create a marker when clicking on the map
     var onMapClick = function(e){
-      var marker = L.marker(e.latlng).addTo(map);
-      var popup = L.popup().setContent(markerHTML.html());
-      marker.bindPopup(popup);
+      popup.setLatLng(e.latlng);
+      popup.openOn(map);
     };
     map.on("click", onMapClick);
 
@@ -75,7 +77,7 @@
         icon = L.MakiMarkers.icon({icon: "circle", color: "#FFCC00", size: "m"});
       }
       var marker = L.marker([lat, lon], {"icon": icon}).addTo(map);
-      marker.bindPopup(Handlebars.templates.marker());
+      marker.bindPopup(Handlebars.templates.report_popup({"report": report}));
       marker_for_report_id[report.report_id] = marker;
     };
 
