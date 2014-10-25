@@ -10,20 +10,18 @@
    * @return The map 
    */
   var MapCtrl = function(map_div_id) { 
-
-    // By default, the map centers around MIT.
-    var map = L.map(map_div_id).setView([42.358527, -71.093152], 10);
+    var map = L.map(map_div_id);
     var marker_for_report_id = {};
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // When the map is clicked, display a popup showing Report/Subscribe
-    Global.ReportSubscribePopupCtrl(map);
-
     // Attempt to center the map around the user's location.
     Global.CenterOnUserCtrl(map);
+
+    // When the map is clicked, display a popup showing Report/Subscribe
+    Global.ReportSubscribePopupCtrl(map);
 
     // Define function to update the map.
     var update_map = function() {
