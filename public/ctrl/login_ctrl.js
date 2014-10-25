@@ -11,6 +11,14 @@
     var txt_log_username = html.find("#txt_log_username");
     var txt_log_password = html.find("#txt_log_password");
 
+    btn_login.click(function() {
+      var username = txt_log_username.text();
+      var password = txt_log_password.text();
+      Global.auth.login(username, password, function(data) {
+
+      });
+    });
+
     div.html(html);
     div.addClass("active");
     var that = {};
