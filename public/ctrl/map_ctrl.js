@@ -7,9 +7,9 @@
    * Creates a map.
    *
    * @param map_div_id - The id of the div which will contain the map.
-   * @param callback - The callback to execute after map is set up. It is executed as callback().
+   * @return The map 
    */
-  var MapCtrl = function(map_div_id, callback) { 
+  var MapCtrl = function(map_div_id) { 
 
     // By default, the map centers around MIT.
     var latitude = 42.358527;
@@ -32,8 +32,7 @@
 
     });
 
-    // Trigger the callback
-    callback();
+    return map;
   };
 
   Global.MapCtrl = MapCtrl;

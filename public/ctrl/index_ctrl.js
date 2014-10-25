@@ -2,28 +2,18 @@
  * This file defines the controller for index.html
  */
 (function() {
+  var map;
   $(document).ready(function() {
-    setup();
+    map = Global.MapCtrl("map");
+    Global.LoginCtrl("login-div", setup_after_login);
   });
 
-  var setup = function() {
-    setup_map();
-  };
-
-  var setup_map = function() {
-    Global.MapCtrl("map", setup_login);
-  };
-
-  var setup_login = function() {
-    Global.LoginCtrl("login-div", setup_logout); 
-  };
-
-  var setup_logout = function() {
+  var setup_after_login = function() {
     Global.LogoutCtrl("logout-div", logged_out);
   };
 
   var logged_out = function() {
-    setup_login();
+    Global.LoginCtrl("login-div", setup_after_login);
   };
 
 })();
