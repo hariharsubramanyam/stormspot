@@ -31,20 +31,15 @@
         marker_for_report_id[key].remove();
       }
       markers = {};
-      $.get("/report/all", function(data) {
-        data = JSON.parse(data);
-        if (data.error === null && data.result !== null) {
+      Global.report.getAll(function(data) {
+        if (data !== null) {
           for (var i = 0; i < data.result.length; i++) {
             var report = data.result[i];
-            add_report_to_map(report);
+            var marker = Global.ReportMarkerCtrl(map, report);
+            marker_for_report_id[report.report_id] = marker;
           }
         }
       });
-    };
-
-    var add_report_to_map = function(report) {
-      var marker = Global.ReportMarkerCtrl(map, report);
-      marker_for_report_id[report.report_id] = marker;
     };
 
     update_map();

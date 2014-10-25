@@ -32,7 +32,7 @@
       "success": function(data) {
         data = JSON.parse(data);
         callback(data);
-      }
+      },
       "error": function(data){
         callback(null);
       }
@@ -139,7 +139,7 @@
 
   Global.report.novote = function(report_id, callback){
     $.ajax({
-      "url": "/report/novote/" + report_id;
+      "url": "/report/novote/" + report_id,
       "method": "PUT",
       "success": function(data){
         data = JSON.parse(data);
