@@ -72,7 +72,9 @@
       "method": "GET",
       "success": function(data) {
         data = JSON.parse(data);
-        Global.auth.username = data.result.username;
+        if (data.error === null && data.result.username !== null) {
+          Global.auth.username = data.result.username;
+        }
         callback(data);
       },
       "error": function(){
