@@ -20,7 +20,7 @@
         if (data.error === null) {
           set_session_id(data.result);
         }
-        callback(data);
+        Global.auth.validate(callback);
       },
       "error": function() {
         callback(null);
@@ -41,7 +41,7 @@
         if (data.error === null) {
           set_session_id(data.result);
         }
-        callback(data);
+        Global.auth.validate(callback);
       },
       "error": function() {
         callback(null);
@@ -72,6 +72,7 @@
       "method": "GET",
       "success": function(data) {
         data = JSON.parse(data);
+        Global.auth.username = data.username;
         callback(data);
       },
       "error": function(){

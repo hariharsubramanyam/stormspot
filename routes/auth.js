@@ -28,14 +28,22 @@ var mongoose;
  * The response is:
  * {
  *  error: The error message (or null if there is no error),
- *  result: true (if the session_id is valid)
+ *  result: The user object (if there is no error).
  * }
  * 
  */
 router.get("/validate", function(req, res) {
   authenticate(req, res, function(error, user_id) {
-    if (error === null) {
-      send_response(res, true);
+    if (error) {
+      send_error(res, error);
+    } else {
+      User.findOne({"_id": user_id}, function(err, result) {
+        if (err) {
+          send_error(res, err);
+        } else {
+          send_response(res, result);
+        }
+      });
     }
   });
 });
