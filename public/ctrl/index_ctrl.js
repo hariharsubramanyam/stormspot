@@ -15,6 +15,15 @@
   };
 
   var setup_login = function() {
-    Global.LoginCtrl("login-div", function() {});
+    Global.LoginCtrl("login-div", setup_logout); 
   };
+
+  var setup_logout = function() {
+    Global.LogoutCtrl("logout-div", logged_out);
+  };
+
+  var logged_out = function() {
+    setup_login();
+  };
+
 })();
