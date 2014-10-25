@@ -16,6 +16,17 @@
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
+    var markerHTML = $(Handlebars.templates.marker());
+    var btn_subscribe = markerHTML.find("#btn_subscribe");
+    var btn_report = markerHTML.find("#btn_report");
+
+    //Create a marker when clicking on the map
+    var onMapClick = function(e){
+      var marker = L.marker(e.latlng).addTo(map);
+      var popup = L.popup().setContent(markerHTML.html());
+      marker.bindPopup(popup);
+    };
+    map.on("click", onMapClick);
 
     // Create the object to return.
     var that = {};
