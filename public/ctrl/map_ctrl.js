@@ -77,7 +77,25 @@
         icon = L.MakiMarkers.icon({icon: "circle", color: "#FFCC00", size: "m"});
       }
       var marker = L.marker([lat, lon], {"icon": icon}).addTo(map);
-      marker.bindPopup(Handlebars.templates.report_popup({"report": report}));
+      var isUpvoter = false;
+      var isDownvoter = false;
+      for (var i = 0; i < report.upvoters.length; i++) {
+        if (report.upvoters[i] === Global.auth.username) {
+          isUpvoter = true;
+          break;
+        }
+      }
+      for (var i = 0; i < report.downvoters.length; i++) {
+        if (report.downvoters[i] === Global.auth.username) {
+          isDownvoter = true;
+          break;
+        }
+      } 
+      marker.bindPopup(Handlebars.templates.report_popup({
+        "report": report,
+        "isUpvoter": isUpvoter,
+        "isDownvoter": isDownvoter
+      }));
       marker_for_report_id[report.report_id] = marker;
     };
 
