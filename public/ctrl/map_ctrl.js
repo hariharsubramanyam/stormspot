@@ -1,22 +1,35 @@
+/**
+ * This file defines the controller for the map.
+ */
 (function() {
-  var MapCtrl = function(map_div) { 
+  
+  /**
+   * The constructor takes the id of the div which will display the map. It then sets up the map.
+   */
+  var MapCtrl = function(map_div_id) { 
+
+    // By default, the map centers around MIT.
     var latitude = 42.358527;
     var longitude = -71.093152;
     var zoom_level = 10;
-    var map = L.map(map_div).setView([latitude, longitude], zoom_level);
+    var map = L.map(map_div_id).setView([latitude, longitude], zoom_level);
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
+    // Create the object to return.
     var that = {};
+
+    // Initialize the map (this should be called after calling the constructor).
     that.initialize = function(callback) {
+      // Get the user's current location.
       Global.getGeoLocation(function(position) {
-        // By default, the location is MIT.
         if (position !== null) {
           latitude = position.coords.latitude;
           longitude = position.coords.longitude;
         };
 
+        // Center the map around the user's location.
         map.setView([latitude, longitude], zoom_level);
 
         if (callback !== null && callback !== undefined) {
@@ -24,6 +37,8 @@
         }
       });
     };
+
+    // Return the object.
     return that;
   };
 
