@@ -65,9 +65,14 @@
 
     div.html(html);
     div.addClass("active");
-    var that = {};
-    return that;
   };
 
-  Global.LoginCtrl = LoginCtrl;
+  // Only display the login control if the user has not validated.
+  Global.LoginCtrl = function(login_div_name) {
+    Global.auth.validate(function(data) {
+      if (data === null || data.error !== null) {
+        LoginCtrl(login_div_name);
+      }
+    });
+  }
 })();
