@@ -4,9 +4,12 @@
 (function() {
   
   /**
-   * The constructor takes the id of the div which will display the map. It then sets up the map.
+   * Creates a map.
+   *
+   * @param map_div_id - The id of the div which will contain the map.
+   * @param callback - The callback to execute after map is set up. It is executed as callback().
    */
-  var MapCtrl = function(map_div_id) { 
+  var MapCtrl = function(map_div_id, callback) { 
 
     // By default, the map centers around MIT.
     var latitude = 42.358527;
@@ -17,29 +20,20 @@
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-    // Create the object to return.
-    var that = {};
+    // Attempt to center the map around the user's location.
+    Global.getGeoLocation(function(position) {
+      if (position !== null) {
+        latitude = position.coords.latitude;
+        longitude = position.coords.longitude;
+      };
 
-    // Initialize the map (this should be called after calling the constructor).
-    that.initialize = function(callback) {
-      // Get the user's current location.
-      Global.getGeoLocation(function(position) {
-        if (position !== null) {
-          latitude = position.coords.latitude;
-          longitude = position.coords.longitude;
-        };
+      // Center the map around the user's location.
+      map.setView([latitude, longitude], zoom_level);
 
-        // Center the map around the user's location.
-        map.setView([latitude, longitude], zoom_level);
+    });
 
-        if (callback !== null && callback !== undefined) {
-          callback();
-        }
-      });
-    };
-
-    // Return the object.
-    return that;
+    // Trigger the callback
+    callback();
   };
 
   Global.MapCtrl = MapCtrl;

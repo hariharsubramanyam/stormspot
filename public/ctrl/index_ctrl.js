@@ -3,9 +3,18 @@
  */
 (function() {
   $(document).ready(function() {
-
-    // Create the map
-    var map_ctrl = Global.MapCtrl("map").initialize();
-    Global.LoginCtrl("login-div");
+    setup();
   });
+
+  var setup = function() {
+    setup_map();
+  };
+
+  var setup_map = function() {
+    Global.MapCtrl("map", setup_login);
+  };
+
+  var setup_login = function() {
+    Global.LoginCtrl("login-div", function() {});
+  };
 })();
