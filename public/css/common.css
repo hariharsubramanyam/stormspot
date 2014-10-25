@@ -1,0 +1,77 @@
+.pretty-button {
+  background-color: white;
+  color: black;
+  border-radius: 5px;
+  font-size: 12pt;
+  height: 35px;
+  min-width: 100px;
+  border: 1px solid black;
+}
+
+.pretty-button:hover {
+  background-color: rgb(230, 230, 230);
+}
+
+.pretty-button:active {
+  background-color: rgb(200, 200, 200);
+}
+
+.green-btn {
+  background-color: #0BD318;
+  color: white;
+}
+
+.green-btn:hover {
+  background-color: #4CD964;
+}
+
+.green-btn:active {
+  background-color: #5AD427;
+}
+
+.red-btn {
+  background-color: #FF3B30;
+  color: white;
+}
+
+.red-btn:hover {
+  background-color: #FF5E3A;
+}
+
+.red-btn:active {
+  background-color: #FF885A;
+}
+
+.yellow-btn {
+  background-color: #FF9500;
+  color: white;
+}
+
+.yellow-btn:hover {
+  background-color: #FFDB4C;
+}
+
+.yellow-btn:active {
+  background-color: #FFDD4C;
+}
+
+.pretty-input {
+  text-align: center;
+  border-radius: 5px;
+  height: 25px;
+  font-size: 10pt;
+  min-width: 200px;
+  border: 1px dotted black;
+}
+
+.alert {
+  height: 40px;
+  border-radius: 10px;
+  background-color: #FF5E3A;
+  text-align: center;
+}
+
+.alert p {
+  font-size: 20pt;
+  color: white;
+}

@@ -6,5 +6,9 @@
 
     // Create the map
     var map_ctrl = Global.MapCtrl("map").initialize();
+    var html = Handlebars.templates.login();
+    console.log(html);
+    $("#login-background").addClass("active");
+    $("#login-background").html(html);
   });
 })();
