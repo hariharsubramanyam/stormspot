@@ -7,7 +7,7 @@ templates['logout'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function
   return "<button class=\"pretty-button red-btn\">Logout</button>\n";
   },"useData":true});
 templates['marker'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  return "<div id=\"marker-box\">\n  <button class=\"pretty-button green-btn\" id=\"btn_subscribe\">Subscribe</button> \n  <button class=\"pretty-button red-btn\" id=\"btn_report\">Report</button> \n</div>\n\n";
+  return "<div id=\"marker-box\">\n  <button class=\"pretty-button\" id=\"btn_subscribe\">Subscribe</button> \n  <button class=\"pretty-button\" id=\"btn_report\">Report</button> \n</div>\n\n";
   },"useData":true});
 templates['report_popup'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
