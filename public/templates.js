@@ -6,4 +6,7 @@ templates['login'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(
 templates['logout'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<button class=\"pretty-button red-btn\">Logout</button>\n";
   },"useData":true});
+templates['marker'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<h1>Tornado (SEVERE)</h1>\n<h2>2 upvotes, 4 downvotes</h2>\n<p>This is the report content.</p>\n";
+  },"useData":true});
 })();
