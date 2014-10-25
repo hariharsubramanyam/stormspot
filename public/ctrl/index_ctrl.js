@@ -6,5 +6,6 @@
 
     // Create the map
     var map_ctrl = Global.MapCtrl("map").initialize();
+    var login_ctrl = Global.LoginCtrl("login-div");
   });
 })();
