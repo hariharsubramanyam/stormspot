@@ -1,8 +1,21 @@
+/**
+ * This file defines the controller for the login view.
+ */
 (function() {
-  var LoginCtrl = function(login_div_name) {
+  
+  /**
+   * Displays the login view.
+   *
+   * @param login_div_name - The id of the div which will contain the login view.
+   * @param callback - The callback to execute (as callback()) after the user is logged in or
+   *                   registered.
+   */
+  var LoginCtrl = function(login_div_name, callback) {
+    // Find the div and create the template.
     var div = $("#"+login_div_name);
     var html = $(Handlebars.templates.login());
 
+    // Bind to the DOM elements.
     var btn_login = html.find("#btn_login");
     var btn_register = html.find("#btn_register");
     var txt_reg_username = html.find("#txt_reg_username");
@@ -14,6 +27,7 @@
     var alert_div = html.find(".alert");
     var alert_p = alert_div.find("p");
 
+    // Function which displays an alert for 3 seconds.
     var show_alert = function(message) {
       clearTimeout(alert_timeout);
       alert_p.text(message);
@@ -23,11 +37,14 @@
       }, 3000);
     };
 
+    // Trigger the callback and remove the view after successful authentication.
     var successful_auth = function() {
       div.removeClass("active");
       div.html("");
+      callback();
     };
 
+    // Log the user in.
     btn_login.click(function() {
       var username = txt_log_username.val();
       var password = txt_log_password.val();
@@ -42,6 +59,7 @@
       });
     });
 
+    // Register a new user.
     btn_register.click(function() {
       var username = txt_reg_username.val();
       var password = txt_reg_password.val();
@@ -63,11 +81,19 @@
       }
     });
 
+    // Add the html to the div and make it active (i.e. tints background elements black).
     div.html(html);
     div.addClass("active");
-    var that = {};
-    return that;
   };
 
-  Global.LoginCtrl = LoginCtrl;
+  // Only display the login control if the user has not authenticated.
+  Global.LoginCtrl = function(login_div_name, callback) {
+    Global.auth.validate(function(data) {
+      if (data === null || data.error !== null) {
+        LoginCtrl(login_div_name, callback);
+      } else {
+        callback();
+      }
+    });
+  }
 })();
