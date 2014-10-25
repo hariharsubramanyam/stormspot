@@ -12,39 +12,18 @@
   var MapCtrl = function(map_div_id) { 
 
     // By default, the map centers around MIT.
-    var latitude = 42.358527;
-    var longitude = -71.093152;
-    var zoom_level = 10;
-    var map = L.map(map_div_id).setView([latitude, longitude], zoom_level);
+    var map = L.map(map_div_id).setView([42.358527, -71.093152], 10);
     var marker_for_report_id = {};
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
-
-    var markerHTML = $(Handlebars.templates.marker());
-    var btn_subscribe = markerHTML.find("#btn_subscribe");
-    var btn_report = markerHTML.find("#btn_report");
-    var popup = L.popup().setContent(markerHTML.html());
-
-    //Create a marker when clicking on the map
-    var onMapClick = function(e){
-      popup.setLatLng(e.latlng);
-      popup.openOn(map);
-    };
-    map.on("click", onMapClick);
+    // When the map is clicked, display a popup showing Report/Subscribe
+    Global.ReportSubscribePopupCtrl(map);
 
     // Attempt to center the map around the user's location.
-    Global.getGeoLocation(function(position) {
-      if (position !== null) {
-        latitude = position.coords.latitude;
-        longitude = position.coords.longitude;
-      };
-
-      // Center the map around the user's location.
-      map.setView([latitude, longitude], zoom_level);
-    });
+    Global.CenterOnUserCtrl(map);
 
     // Define function to update the map.
     var update_map = function() {
