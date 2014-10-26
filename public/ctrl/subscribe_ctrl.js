@@ -38,6 +38,9 @@
 
     div.html(html);
     div.addClass("active");
+
+    var that = {};
+    return that;
   };
 
   Global.SubscribeCtrl = SubscribeCtrl;
