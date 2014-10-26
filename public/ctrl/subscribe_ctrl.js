@@ -7,6 +7,7 @@
 
     div.html(html);
     div.addClass("active");
+    console.log("subscribe");
 
     var that = {};
     return that;
