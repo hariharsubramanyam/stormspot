@@ -15,7 +15,6 @@
     var popup_html = $(html);
     var upvote_selector = "#" + report.report_id + " .btn_upvote";
     var downvote_selector = "#" + report.report_id + " .btn_downvote"; 
-    console.log(upvote_selector);
     
     marker.on("popupopen", function() {
       $(upvote_selector).click(upvote_handler);
