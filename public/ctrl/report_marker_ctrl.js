@@ -6,13 +6,33 @@
     var isUpvoter = contains(report.upvoters, Global.auth.username);
     var isDownvoter = contains(report.downvoters, Global.auth.username);
     var marker = L.marker([lat, lon], {"icon": icon}).addTo(map);
-
-    marker.bindPopup(Handlebars.templates.report_popup({
+    var html = Handlebars.templates.report_popup({
       "report": report,
       "isUpvoter": isUpvoter,
       "isDownvoter": isDownvoter
-    }));
+    });
+
+    var popup_html = $(html);
+    var upvote_selector = "#" + report.report_id + " .btn_upvote";
+    var downvote_selector = "#" + report.report_id + " .btn_downvote"; 
+    console.log(upvote_selector);
+    
+    marker.on("popupopen", function() {
+      $(upvote_selector).click(upvote_handler);
+      $(downvote_selector).click(downvote_handler);
+    });
+
+    var upvote_handler = function() {
+      console.log("upvote");
+    };
+
+    var downvote_handler = function() {
+      console.log("downvote");
+    };
+
+    marker.bindPopup(html);
   };
+
 
   var contains = function(arr, val) {
     for (var i = 0; i < arr.length; i++) {

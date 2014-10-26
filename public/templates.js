@@ -11,26 +11,28 @@ templates['marker'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function
   },"useData":true});
 templates['report_popup'] = template({"1":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "<button class=\"pretty-button yellow-btn\">"
+  return "  <button class=\"pretty-button yellow-btn btn_upvote\">"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.upvoters : stack1)) != null ? stack1.length : stack1), depth0))
     + " upvoters</button>\n";
 },"3":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "<button class=\"pretty-button\">"
+  return "  <button class=\"pretty-button btn_upvote\">"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.upvoters : stack1)) != null ? stack1.length : stack1), depth0))
     + " upvoters</button>\n";
 },"5":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "<button class=\"pretty-button yellow-btn\">"
+  return "  <button class=\"pretty-button yellow-btn btn_downvote\" >"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.downvoters : stack1)) != null ? stack1.length : stack1), depth0))
     + " downvoters</button>\n";
 },"7":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "<button class=\"pretty-button\">"
+  return "  <button class=\"pretty-button btn_downvote\">"
     + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.downvoters : stack1)) != null ? stack1.length : stack1), depth0))
     + " downvoters</button>\n";
 },"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "<h1>"
+  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "<div id=\""
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.report_id : stack1), depth0))
+    + "\">\n  <h1>"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.storm_type : stack1), depth0))
     + " ("
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.severity_level : stack1), depth0))
@@ -40,9 +42,9 @@ templates['report_popup'] = template({"1":function(depth0,helpers,partials,data)
   buffer += "\n";
   stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isDownvoter : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.program(7, data),"data":data});
   if (stack1 != null) { buffer += stack1; }
-  return buffer + "<p>"
+  return buffer + "  <p>"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.content : stack1), depth0))
-    + "</p>\n";
+    + "</p>\n</div>\n";
 },"useData":true});
 templates['subscribe'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<div id=\"login-box\">\n  <h1>Make a subscription!</h1>\n  <input type=\"text\" class=\"pretty-input\" placeholder=\"Phone Number\" id=\"txt_sub_phonenumber\">\n  <br>\n  <button class=\"pretty-button green-btn\" id=\"btn_subscribe\">Subscribe</button>\n</div>";
