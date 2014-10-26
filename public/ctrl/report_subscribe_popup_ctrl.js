@@ -10,6 +10,8 @@
       var btn_subscribe = $("#btn_subscribe");
       var btn_report = $("#btn_report");
       btn_subscribe.click(function() {
+        map.closePopup(popup);
+        Global.SubscribeCtrl("subscribe-div", map, e);
         console.log("subscribe");
       });
       btn_report.click(function() {

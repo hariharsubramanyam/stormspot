@@ -14,7 +14,7 @@
       },
       "success": function(data){
         data = JSON.parse(data);
-        calback(data);
+        callback(data);
       },
       "error": function(data){
         callback(null);
