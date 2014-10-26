@@ -9,40 +9,19 @@ templates['logout'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function
 templates['marker'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<div id=\"marker-box\">\n  <button class=\"pretty-button\" id=\"btn_subscribe\">Subscribe</button> \n  <button class=\"pretty-button\" id=\"btn_report\">Report</button> \n</div>\n\n";
   },"useData":true});
-templates['report_popup'] = template({"1":function(depth0,helpers,partials,data) {
+templates['report_popup'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "  <button class=\"pretty-button yellow-btn btn_upvote\">"
-    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.upvoters : stack1)) != null ? stack1.length : stack1), depth0))
-    + " upvoters</button>\n";
-},"3":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "  <button class=\"pretty-button btn_upvote\">"
-    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.upvoters : stack1)) != null ? stack1.length : stack1), depth0))
-    + " upvoters</button>\n";
-},"5":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "  <button class=\"pretty-button yellow-btn btn_downvote\" >"
-    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.downvoters : stack1)) != null ? stack1.length : stack1), depth0))
-    + " downvoters</button>\n";
-},"7":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "  <button class=\"pretty-button btn_downvote\">"
-    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.downvoters : stack1)) != null ? stack1.length : stack1), depth0))
-    + " downvoters</button>\n";
-},"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
-  var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression, buffer = "<div id=\""
+  return "<div id=\""
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.report_id : stack1), depth0))
     + "\">\n  <h1>"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.storm_type : stack1), depth0))
     + " ("
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.severity_level : stack1), depth0))
-    + ")</h1>\n\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isUpvoter : depth0), {"name":"if","hash":{},"fn":this.program(1, data),"inverse":this.program(3, data),"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  buffer += "\n";
-  stack1 = helpers['if'].call(depth0, (depth0 != null ? depth0.isDownvoter : depth0), {"name":"if","hash":{},"fn":this.program(5, data),"inverse":this.program(7, data),"data":data});
-  if (stack1 != null) { buffer += stack1; }
-  return buffer + "  <p>"
+    + ")</h1>\n  <button class=\"pretty-button btn_upvote\">"
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.upvoters : stack1)) != null ? stack1.length : stack1), depth0))
+    + " upvoters</button>\n  <button class=\"pretty-button btn_downvote\">"
+    + escapeExpression(lambda(((stack1 = ((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.downvoters : stack1)) != null ? stack1.length : stack1), depth0))
+    + " downvoters</button>\n  <p>"
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.report : depth0)) != null ? stack1.content : stack1), depth0))
     + "</p>\n</div>\n";
 },"useData":true});

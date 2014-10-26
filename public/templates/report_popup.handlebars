@@ -1,16 +1,6 @@
 <div id="{{report.report_id}}">
   <h1>{{report.storm_type}} ({{report.severity_level}})</h1>
-
-  {{#if isUpvoter }}
-  <button class="pretty-button yellow-btn btn_upvote">{{report.upvoters.length}} upvoters</button>
-  {{else}}
   <button class="pretty-button btn_upvote">{{report.upvoters.length}} upvoters</button>
-  {{/if}}
-
-  {{#if isDownvoter }}
-  <button class="pretty-button yellow-btn btn_downvote" >{{report.downvoters.length}} downvoters</button>
-  {{else}}
   <button class="pretty-button btn_downvote">{{report.downvoters.length}} downvoters</button>
-  {{/if}}
   <p>{{report.content}}</p>
 </div>

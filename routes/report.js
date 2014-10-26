@@ -463,8 +463,7 @@ router.put("/novote/:report_id", function(req, res) {
     function(username, callback) {
       Report.update({"report_id": report_id},
       {
-        "$pull": {"downvoters": username},
-        "$pull": {"upvoters": username}
+        "$pull": {"downvoters": username, "upvoters": username}
       },
       function(err, result) {
         if (err) {
