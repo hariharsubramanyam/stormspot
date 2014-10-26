@@ -14,7 +14,7 @@
         console.log("subscribe");
       });
       btn_report.click(function() {
-        Global.ReportCtrl("marker-box-form");
+        Global.ReportCtrl("marker-box-form", popup, map, e);
         console.log("report");
       });
     };
