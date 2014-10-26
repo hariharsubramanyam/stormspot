@@ -2,9 +2,9 @@
  * This file defines the controller for index.html
  */
 (function() {
-  var map;
+  var map_ctrl;
   $(document).ready(function() {
-    map = Global.MapCtrl("map");
+    map_ctrl = Global.MapCtrl("map");
     Global.LoginCtrl("login-div", setup_after_login);
   });
 
@@ -13,6 +13,7 @@
   };
 
   var logged_out = function() {
+    map_ctrl.hidePopups();
     Global.LoginCtrl("login-div", setup_after_login);
   };
 

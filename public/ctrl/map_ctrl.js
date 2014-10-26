@@ -42,7 +42,13 @@
 
     update_map();
 
-    return map;
+    var that = {};
+    that.hidePopups = function() {
+      for (var key in marker_for_report_id) {
+        marker_for_report_id[key].closePopup();
+      }
+    };
+    return that;
   };
 
 

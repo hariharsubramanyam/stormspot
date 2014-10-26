@@ -68,6 +68,7 @@
     };
 
     marker.bindPopup(html);
+    return marker;
   };
 
   var voted = function(btn) {
