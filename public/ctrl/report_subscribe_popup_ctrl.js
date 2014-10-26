@@ -14,7 +14,7 @@
         marker.addTo(map);
         //markerHTML.removeClass("active");
         //div.html("");
-        popup.closePopup();
+        map.closePopup(popup);
       }
 
       popup.setLatLng(e.latlng);
@@ -26,7 +26,7 @@
         console.log("subscribe");
       });
       btn_report.click(function() {
-        Global.ReportCtrl("marker-box-form", popup, map, e);
+        Global.ReportCtrl("marker-box-form");
         console.log("report");
       });
     };
