@@ -1,5 +1,5 @@
 (function() {
-  var SubscribeCtrl = function(subscribe_div_name, callback) {
+  var SubscribeCtrl = function(subscribe_div_name, e, callback) {
     var div = $("#"+subscribe_div_name);
     var html = $(Handlebars.templates.subscribe());
 
@@ -9,7 +9,6 @@
     var btn_subscribe = html.find("#btn_subscribe");
 
     var successful_subscribe = function() {
-
       callback();
     }
 
@@ -24,7 +23,7 @@
         if(data === null){
           console.log("EROOR");
         } else if (data.error !== null) {
-          console.log("ERROR");
+          console.log(data.error);
         } else {
           successful_subscribe();
         }

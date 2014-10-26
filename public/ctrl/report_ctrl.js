@@ -1,5 +1,5 @@
 (function() {
-  var ReportCtrl = function(report_div_name, popup, map, e) {
+  var ReportCtrl = function(report_div_name, e, callback) {
     var div = $("#"+report_div_name);
     var html = $(Handlebars.templates.report());
 
@@ -9,19 +9,15 @@
     var txt_content = html.find("#txt_content");
 
     var successful_report = function(report) {
-      Global.ReportMarkerCtrl(map, report);
+      callback(report);
     };
 
     btn_report.click(function(){
-      map.closePopup(popup);
-
       var lat = e.latlng.lat;
       var lon = e.latlng.lng;
       var storm_type = sel_storm.val();
       var severity = sel_severity.val();
       var content = txt_content.val();
-
-      console.log(content);
 
       Global.report.make(lat, lon, storm_type, severity, content, function(data){
         if(data === null){
