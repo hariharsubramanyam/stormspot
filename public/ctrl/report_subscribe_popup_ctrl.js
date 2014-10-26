@@ -10,8 +10,11 @@
       var btn_subscribe = $("#btn_subscribe");
       var btn_report = $("#btn_report");
       btn_subscribe.click(function() {
+<<<<<<< HEAD
         map.closePopup(popup);
         Global.SubscribeCtrl("subscribe-div", map, e);
+=======
+>>>>>>> parent of 925c7c9... subscribe button crshows form
         console.log("subscribe");
       });
       btn_report.click(function() {
