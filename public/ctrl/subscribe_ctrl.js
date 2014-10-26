@@ -6,8 +6,7 @@
     var btn_subscribe = html.find("#btn_subscribe");
 
     div.html(html);
-    div.addClass("active");
-
+    
     var that = {};
     return that;
   };

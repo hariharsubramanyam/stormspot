@@ -14,6 +14,7 @@
         console.log("subscribe");
       });
       btn_report.click(function() {
+        Global.ReportCtrl("marker-box-form");
         console.log("report");
       });
     };
