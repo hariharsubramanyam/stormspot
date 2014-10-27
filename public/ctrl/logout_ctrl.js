@@ -17,14 +17,17 @@
     // Set up handler for logout button.
     var  btn_logout = div.find("button");
     btn_logout.click(function() {
+      // Logout
       Global.auth.logout(function(data) {
+        // On successful logout, remove the button and trigger the callback.
         if (data !== null && data.error === null) {
-          div.html("");
+          btn_logout.remove();
           callback();
         }
       });
     });
   };
 
+  // Make the controller globally available.
   Global.LogoutCtrl = LogoutCtrl;
 })();
