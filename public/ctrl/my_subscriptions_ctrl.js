@@ -17,7 +17,7 @@
     // Set up handler for subscriptions button.
     var  btn_my_subscriptions = div.find("button");
     btn_my_subscriptions.click(function() {
-      //global stuff here
+      Global.SubscriptionListCtrl("list-div", function(){});
     });
   };
 
