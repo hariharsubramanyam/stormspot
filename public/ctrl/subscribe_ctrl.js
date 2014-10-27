@@ -21,7 +21,7 @@
 
       Global.subscribe.make(phone_number, carrier, severity, lat, lon, function(data){
         if(data === null){
-          console.log("EROOR");
+          console.log("ERROR");
         } else if (data.error !== null) {
           console.log(data.error);
         } else {

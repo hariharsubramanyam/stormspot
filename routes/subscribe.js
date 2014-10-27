@@ -92,27 +92,37 @@ router.post("/", function(req, res) {
     },
     //Step 4: Create a new subscription
     function(args, user_id, callback) {
-      var subscription = new Subscription({
-        "subscription_id": uuid.v4(),
-        "user": user_id,
-        "phone_number": args.phone_number,
-        "carrier": args.carrier,
-        "severity_level": args.severity_level,
-        "location": {
-          "type": "Point",
-          "coordinates": [args.lon, args.lat]
-        }
-      });
+      var error = null
+      if(args.phone_number.replace(/[^\d]/g, '') !== args.phone_number){
+        error = "A phone number must only contain numbers";
+        send_error(res, error);
+      }
+      if(args.phone_number.length !== 10){
+        error = "A phone number must contain 10 digits";
+        send_error(res, error);
+      } else {
+        var subscription = new Subscription({
+          "subscription_id": uuid.v4(),
+          "user": user_id,
+          "phone_number": args.phone_number,
+          "carrier": args.carrier,
+          "severity_level": args.severity_level,
+          "location": {
+            "type": "Point",
+            "coordinates": [args.lon, args.lat]
+          }
+        });
 
-      subscription.save(function(err, result) {
-        if(err) {
-          send_error(res, err);
-          callback(err);
-        } else {
-          send_response(res, result);
-          callback(null, args);
-        }
-      });
+        subscription.save(function(err, result) {
+          if(err) {
+            send_error(res, err);
+            callback(err);
+          } else {
+            send_response(res, result);
+            callback(null, args);
+          }
+        });
+      }
     },
     //Step 5: Send confirmation message of the subscription
     function(args, callback) {
