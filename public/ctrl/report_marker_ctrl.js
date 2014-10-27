@@ -85,17 +85,28 @@
   };
 
   var get_icon_for_storm = function(report) {
-    var icon = null;
-    if (report.storm_type === "TORNADO") {
-      icon = L.MakiMarkers.icon({icon: "circle", color: "#FF2A68", size: "l"});
-    } else if (report.storm_type === "HAIL") {
-      icon = L.MakiMarkers.icon({icon: "circle", color: "#0BD318", size: "m"});
-    } else if (report.storm_type === "WIND") {
-      icon = L.MakiMarkers.icon({icon: "circle", color: "#1AD6FD", size: "m"});
+    var color;
+    var size;
+
+    if (report.severity_level === "NORMAL") {
+      size = "s";
+    } else if (report.severity_level === "SEVERE") {
+      size = "m";
     } else {
-      icon = L.MakiMarkers.icon({icon: "circle", color: "#FFCC00", size: "m"});
+      size = "l";
     }
-    return icon;
+
+    if (report.storm_type === "TORNADO") {
+      color = "#FF2A68";
+    } else if (report.storm_type === "HAIL") {
+      color = "#0BD318";
+    } else if (report.storm_type === "WIND") {
+      color = "#1AD6FD";
+    } else {
+      color = "#FFCC00";
+    }
+
+    return L.MakiMarkers.icon({"icon": "circle", "color": color, "size": size});
   };
 
   Global.ReportMarkerCtrl = ReportMarkerCtrl;
