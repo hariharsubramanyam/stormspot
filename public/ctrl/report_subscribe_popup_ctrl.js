@@ -20,11 +20,9 @@
       var btn_report = $("#btn_report");
       btn_subscribe.click(function() {
         Global.SubscribeCtrl("marker-box-form", e, finish_subscribe);
-        console.log("subscribe");
       });
       btn_report.click(function() {
         Global.ReportCtrl("marker-box-form", e, finish_report);
-        console.log("report");
       });
     };
     map.on("click", onMapClick);

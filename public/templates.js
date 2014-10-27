@@ -5,8 +5,10 @@ templates['list'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(d
   },"useData":true});
 templates['list_element'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   var stack1, lambda=this.lambda, escapeExpression=this.escapeExpression;
-  return "<div>\n  <p>"
+  return "<div>\n  <p>Phone Number: "
     + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.subscription : depth0)) != null ? stack1.phone_number : stack1), depth0))
+    + "</p>\n  <p>Severity: "
+    + escapeExpression(lambda(((stack1 = (depth0 != null ? depth0.subscription : depth0)) != null ? stack1.severity_level : stack1), depth0))
     + "</p>\n  <button id=\"btn_delete\">Remove</button>\n</div>\n";
 },"useData":true});
 templates['login'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
