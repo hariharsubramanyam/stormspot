@@ -75,3 +75,10 @@
   font-size: 20pt;
   color: white;
 }
+
+.pretty-select {
+  background-color: white;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  font-size: 10pt;
+}
