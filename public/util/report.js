@@ -6,7 +6,7 @@
 
   Global.report.make = function(lat, lon, storm_type, severity_level, content, callback){
     $.ajax({
-      "url": "/report",
+      "url": "/reports",
       "method": "POST",
       "data": {
         "lat": lat,
@@ -27,7 +27,7 @@
 
   Global.report.delete = function(report_id, callback){
     $.ajax({
-      "url": "/report/" + report_id,
+      "url": "/reports/" + report_id,
       "method": "DELETE",
       "success": function(data) {
         data = JSON.parse(data);
@@ -41,7 +41,7 @@
 
   Global.report.get = function(callback){
     $.ajax({
-      "url": "/report",
+      "url": "/reports",
       "method": "GET",
       "success": function(data) {
         data = JSON.parse(data);
@@ -55,35 +55,7 @@
 
   Global.report.getAll = function(callback){
     $.ajax({
-      "url": "/report/all",
-      "method": "GET",
-      "success": function(data){
-        data = JSON.parse(data);
-        callback(data);
-      },
-      "error": function(data){
-        callback(null);
-      }
-    });
-  };
-
-  Global.report.getLatest = function(minutes, callback){
-    $.ajax({
-      "url": "/report/latest/" + minutes,
-      "method": "GET",
-      "success": function(data){
-        data = JSON.parse(data);
-        callback(data);
-      },
-      "error": function(data){
-        callback(null);
-      }
-    });
-  };
-
-  Global.report.getNear = function(lat, lon, distance, callback){
-    $.ajax({
-      "url": "/report/near/" + lat + "/" + lon + "/" + distance,
+      "url": "/reports/all",
       "method": "GET",
       "success": function(data){
         data = JSON.parse(data);
@@ -97,7 +69,7 @@
 
   Global.report.getReport = function(report_id, callback){
     $.ajax({
-      "url": "/report/" + report_id,
+      "url": "/reports/" + report_id,
       "method": "GET",
       "success": function(data){
         data = JSON.parse(data);
@@ -111,7 +83,7 @@
 
   Global.report.upvote = function(report_id, callback){
     $.ajax({
-      "url": "/report/upvote/" + report_id,
+      "url": "/reports/upvote/" + report_id,
       "method": "PUT",
       "success": function(data){
         data = JSON.parse(data);
@@ -125,7 +97,7 @@
 
   Global.report.downvote = function(report_id, callback){
     $.ajax({
-      "url": "/report/downvote/" + report_id,
+      "url": "/reports/downvote/" + report_id,
       "method": "PUT",
       "success": function(data){
         data = JSON.parse(data);
@@ -139,7 +111,7 @@
 
   Global.report.novote = function(report_id, callback){
     $.ajax({
-      "url": "/report/novote/" + report_id,
+      "url": "/reports/novote/" + report_id,
       "method": "PUT",
       "success": function(data){
         data = JSON.parse(data);

@@ -1,17 +1,14 @@
 /**
  * This file defines the routes for reports.
  *
- * (POST) /report - Makes a report.
- * (DELETE) /report/:report_id - Deletes a report.
- * (GET) /report - Returns the reports for the given user.
- * (GET) /report/all - Returns all the reports.
- * (GET) /report/latest/:minutes - Returns all the reports at most :minutes minutes old.
- * (GET) /report/near/:lat/:lon/:distance - Returns all the reports that are within :distance 
- *                                          miles of :lat, :lon
- * (GET) /report/:report_id - Return the report with the given ID.
- * (PUT) /report/upvote/:report_id - Upvotes the given report_id
- * (PUT) /report/downvote/:report_id - Downvotes the given report_id.
- * (PUT) /report/novote/:report_id - Removes any upvotes or downvotes on the given report.
+ * (POST) /reports - Makes a report.
+ * (DELETE) /reports/:report_id - Deletes a report.
+ * (GET) /reports - Returns the reports for the given user.
+ * (GET) /reports/all - Returns all the reports.
+ * (GET) /reports/:report_id - Return the report with the given ID.
+ * (PUT) /reports/upvote/:report_id - Upvotes the given report_id
+ * (PUT) /reports/downvote/:report_id - Downvotes the given report_id.
+ * (PUT) /reports/novote/:report_id - Removes any upvotes or downvotes on the given report.
  */
 
 var express = require("express");
@@ -236,77 +233,6 @@ router.get("/all", function(req, res) {
       send_response(res, results);
     }
   });
-});
-
-/**
- * Gets all the reports which are at most a number of minutes old.
- *
- * The request is a GET. the :minutes argument is the number of minutes to look back (ex. if 
- * minutes is 40, we return all reports which are at most 40 minutes old).
- *
- * The response is of the form:
- * {
- *  error: An error message, or null if there is no error.
- *  result: [...] (the array of the reports).
- * }
- */
-router.get("/latest/:minutes", function(req, res) {
-  try {
-    var minutes = parseInt(req.params.minutes, 10);
-    var timestamp = (new Date()).getTime() - minutes * 60 * 1000;
-    timestamp = Math.max(0, timestamp);
-    var date = new Date(timestamp);
-    Report.find({"posted": {"$gte": date}}, function(err, results) {
-      if (err) {
-        send_error(res, err);
-      } else {
-        send_response(res, results);
-      }
-    });
-  } catch (err) {
-    var error = "The minutes must be a number.";
-    send_error(res, error);
-  }
-});
-
-/**
- * Returns the reports that are within a given distance of a specific latitude and longitude. 
- *
- * The request must have:
- * :lat = latitude
- * :lon = longitude
- * :distance = the distance, in miles.
- *
- * The response is:
- * {
- *  error: An error message, or null if there is no error
- *  result: [...] (the array of reports)
- * }
- */
-router.get("/near/:lat/:lon/:distance", function(req, res) {
-  try {
-    var lat = parseFloat(req.params.lat, 10);
-    var lon = parseFloat(req.params.lon, 10);
-    var distance = parseFloat(req.params.distance, 10);
-    
-    // Convert miles to meters.
-    var NUM_METERS_IN_MILE = 1609.34;
-    distance = distance * NUM_METERS_IN_MILE;
-    Report.find({"posted_from": {"$near": {
-      "$maxDistance": distance,
-      "$geometry": {"type": "Point", "coordinates": [lon, lat] }
-    }}}, 
-    function(err, results) {
-      if (err) {
-        send_error(res, err);
-      } else {
-        send_response(res, results);
-      }
-    });
-  } catch(err) {
-    var error = "The latitude, longitude, and distance must be numbers.";
-    send_error(res, error);
-  }
 });
 
 /**

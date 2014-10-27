@@ -1,10 +1,10 @@
 /**
  * This file defines the routes for subscriptions.
  *
- * (POST) /subscribe - Makes a subscription.
- * (DELETE) /subscribe/:subscription_id - Deletes a subscription.
- * (PUT) /subscribe/:subscription_id - Updates a subscription.
- * (GET) /subscribe - Returns all the subscriptions for a given user.
+ * (POST) /subscriptions - Makes a subscription.
+ * (DELETE) /subscriptions/:subscription_id - Deletes a subscription.
+ * (PUT) /subscriptions/:subscription_id - Updates a subscription.
+ * (GET) /subscriptions - Returns all the subscriptions for a given user.
  */
 
 var express = require("express");
@@ -173,7 +173,7 @@ router.put("/:subscription_id", function(req, res){
         function(err, args) {
           var subscription_id = req.params.subscription_id;
           if (subscription_id === null || subscription_id === undefined) {
-            err = "The URL must be of the form /subscribe/subscription_id";
+            err = "The URL must be of the form /subscriptions/subscription_id";
           }
           args.subscription_id = subscription_id;
           if(err) {

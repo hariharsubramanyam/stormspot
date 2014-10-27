@@ -3,7 +3,7 @@
 
   Global.subscribe.make = function(phone_number, carrier, severity_level, lat, lon, callback){
     $.ajax({
-      "url": "/subscribe",
+      "url": "/subscriptions",
       "method": "POST",
       "data": {
         "phone_number": phone_number,
@@ -24,7 +24,7 @@
 
   Global.subscribe.update = function(subscription_id, phone_number, carrier, severity_level, lat, lon, callback){
     $.ajax({
-      "url": "/subscribe/" + subscription_id,
+      "url": "/subscriptions/" + subscription_id,
       "method": "PUT",
       "data": {
         "phone_number": phone_number,
@@ -45,7 +45,7 @@
 
   Global.subscribe.delete = function(subscription_id, callback){
     $.ajax({
-      "url": "/subscribe/" + subscription_id,
+      "url": "/subscriptions/" + subscription_id,
       "method": "DELETE",
       "success": function(data){
         data = JSON.parse(data);
@@ -59,7 +59,7 @@
 
   Global.subscribe.get = function(callback){
     $.ajax({
-      "url": "/subscribe",
+      "url": "/subscriptions",
       "method": "GET",
       "success": function(data){
         data = JSON.parse(data);
