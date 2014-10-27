@@ -16,8 +16,8 @@
     // Get the icon for the report based on its severity and storm type.
     var icon = get_icon_for_storm(report);
 
-    // Create the marker and put it on the map.
-    var marker = L.marker([lat, lon], {"icon": icon}).addTo(map);
+    // Create the marker.
+    var marker = L.marker([lat, lon], {"icon": icon});
 
     // Create the popup which will appear when the marker is clicked.
     var html = Handlebars.templates.report_popup({"report": report});

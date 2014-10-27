@@ -26,21 +26,27 @@
     // Define function to update the map.
     var update_map = function() {
       for (var key in marker_for_report_id) {
-        marker_for_report_id[key].remove();
+        console.log(key);
+        console.log(marker_for_report_id[key]);
+        var marker = marker_for_report_id[key];
+        map.removeLayer(marker);
       }
-      markers = {};
+      marker_for_report_id = {};
       Global.report.getAll(function(data) {
         if (data !== null) {
           for (var i = 0; i < data.result.length; i++) {
             var report = data.result[i];
             var marker = Global.ReportMarkerCtrl(map, report);
+            map.addLayer(marker);
             marker_for_report_id[report.report_id] = marker;
           }
         }
       });
     };
 
+    // Update the map and update it periodically.
     update_map();
+    setInterval(update_map, 1000);
 
     var that = {};
 
