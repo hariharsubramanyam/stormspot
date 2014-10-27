@@ -10,6 +10,9 @@
 
   var setup_after_login = function() {
     Global.LogoutCtrl("logout-div", logged_out);
+    Global.MySubscriptionsCtrl("my-subscriptions-div", function(){});
+    Global.MyReportsCtrl("my-reports-div", function(){});
+
   };
 
   var logged_out = function() {
