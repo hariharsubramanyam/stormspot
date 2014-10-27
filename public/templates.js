@@ -9,6 +9,12 @@ templates['logout'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function
 templates['marker'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<div id=\"marker-box\">\n  <button class=\"pretty-button\" id=\"btn_subscribe\">Subscribe</button>\n  <button class=\"pretty-button\" id=\"btn_report\">Report</button>\n  <div id=\"marker-box-form\"></div>\n</div>\n";
   },"useData":true});
+templates['my_reports'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<button class=\"pretty-button yellow-btn\">Reports</button>\n";
+  },"useData":true});
+templates['my_subscriptions'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
+  return "<button class=\"pretty-button yellow-btn\">Subscriptions</button>\n";
+  },"useData":true});
 templates['report'] = template({"compiler":[6,">= 2.0.0-beta.1"],"main":function(depth0,helpers,partials,data) {
   return "<div id=\"report-box\">\n  <h1>Make a report!</h1>\n  <select id=\"sel_storm\">Storm Type\n    <option value=\"WIND\">WIND</option>\n    <option value=\"STRONG_THUNDERSTORM\">STRONG THUNDERSTORM</option>\n    <option value=\"HAIL\">HAIL</option>\n    <option value=\"TORNADO\">TORNADO</option>\n    <option value=\"OTHER\">OTHER</option>\n  </select>\n  <select id=\"sel_severity\">Severity\n    <option value=\"NORMAL\">NORMAL</option>\n    <option value=\"SEVERE\">SEVERE</option>\n    <option value=\"DESTRUCTIVE\">DESTRUCTIVE</option>\n  </select>\n  <textarea id=\"txt_content\">Content</textarea>\n  <button class=\"pretty-button green-btn\" id=\"btn_report\">Report</button>\n</div>\n";
   },"useData":true});
