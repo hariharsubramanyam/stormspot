@@ -16,7 +16,7 @@
 
     Global.subscribe.get(function(data){
       data.result.forEach(function(subscription){
-        var elem = $(Handlebars.templates.list_element({"subscription": subscription}));
+        var elem = $(Handlebars.templates.subscription_list_element({"subscription": subscription}));
         html.append(elem);
 
         var btn_delete = elem.find("#btn_delete");

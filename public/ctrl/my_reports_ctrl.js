@@ -17,7 +17,7 @@
     // Set up handler for reports button.
     var btn_my_reports = div.find("button");
     btn_my_reports.click(function() {
-      //global stuff here
+      Global.ReportListCtrl("list-div", function(){});
     });
   };
 

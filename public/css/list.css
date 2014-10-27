@@ -4,7 +4,7 @@
   position: absolute;
   bottom: 50px;
   left: 5px;
-  overflow:scroll;
+  overflow:auto;
 }
 
 #list-box {
