@@ -12,7 +12,6 @@
   var MapCtrl = function(map_div_id) { 
     var map = L.map(map_div_id);
     var marker_for_report_id = {};
-
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
@@ -25,20 +24,25 @@
 
     // Define function to update the map.
     var update_map = function() {
-      for (var key in marker_for_report_id) {
-        console.log(key);
-        console.log(marker_for_report_id[key]);
-        var marker = marker_for_report_id[key];
-        map.removeLayer(marker);
-      }
-      marker_for_report_id = {};
       Global.report.getAll(function(data) {
         if (data !== null) {
+          var report_ids = {};
+          for (var i = 0; i < data.result.length; i++) {
+            report_ids[data.result[i].report_id] = true;
+          }
+          for (var key in marker_for_report_id) {
+            if (!report_ids[key]) {
+              map.removeLayer(marker_for_report_id[key]);
+              delete marker_for_report_id[key];
+            }
+          }
           for (var i = 0; i < data.result.length; i++) {
             var report = data.result[i];
-            var marker = Global.ReportMarkerCtrl(map, report);
-            map.addLayer(marker);
-            marker_for_report_id[report.report_id] = marker;
+            if (marker_for_report_id[report.report_id] === undefined) {
+              var marker = Global.ReportMarkerCtrl(map, report);
+              map.addLayer(marker);
+              marker_for_report_id[report.report_id] = marker;
+            }
           }
         }
       });
