@@ -21,5 +21,6 @@
     });
   };
 
+  // Make the controller globally available.
   Global.MySubscriptionsCtrl = MySubscriptionsCtrl;
 })();
