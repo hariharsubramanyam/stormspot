@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Guillermo 
  * This file defines the StormType, which we can use in our Mongoose schemas.
  *
  * A StormType is simply a String which takes on one of the following values:

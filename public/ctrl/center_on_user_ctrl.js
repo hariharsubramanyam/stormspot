@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines a controller which will take a leaflet map, determine the user's location,
  * and centers the map on the user's location.
  */

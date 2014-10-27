@@ -1,3 +1,6 @@
+/**
+ * Lead Author: Giancarlo
+ */
 var nodemailer = require('nodemailer');
 
 var transporter = nodemailer.createTransport({

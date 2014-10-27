@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Giancarlo
  * This file deines functions for communication with the report API.
  */
 (function(){

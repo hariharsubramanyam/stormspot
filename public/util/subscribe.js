@@ -1,3 +1,6 @@
+/**
+ * Lead Author: Giancarlo
+ */
 (function() {
   Global.subscribe = {};
 

@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Giancarlo.
  * This file defines the routes for subscriptions.
  *
  * (POST) /subscriptions - Makes a subscription.

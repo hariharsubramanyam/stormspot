@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines some helper functions that routes can use.
  *
  * send_err: Sends an error response to the client.

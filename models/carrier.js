@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Giancarlo.
  * This file defines a Carrier, which we can use in our Mongoose schemas.
  *
  * A Carrier is simply a String which takes on of the following values:

@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar.
  * This files defines the controller for the logout button.
  */
 (function() {

@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines the routes for authentication.
  *
  * (POST) /auth/login - Logs the user in.

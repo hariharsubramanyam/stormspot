@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Giancarlo.
  * This function defines the controller for creating a report.
  */
 (function() {

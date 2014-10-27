@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file creates the Session model, which stores a session for a given user.
  */
 

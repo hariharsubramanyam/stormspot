@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines the SeverityLevel, which we can use in our Mongoose schemas.
  *
  * A SeverityLevel is simply a String which takes on one of the following values:
