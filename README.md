@@ -29,35 +29,31 @@ We've implemented the **backend API** for this part of the project. The **fronte
 
 ### Reports  (see [`/routes/report.js`](https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3/blob/master/routes/report.js))
 
-`(POST) /report` - Makes a report.
+`(POST) /reports` - Makes a report.
 
-`(DELETE) /report/:report_id` - Deletes a report.
+`(DELETE) /reports/:report_id` - Deletes a report.
 
-`(GET) /report` - Returns the reports for the given user.
+`(GET) /reports` - Returns the reports for the given user.
 
-`(GET) /report/all` - Returns all the reports.
+`(GET) /reports/all` - Returns all the reports.
 
-`(GET) /report/latest/:minutes` - Returns all the reports at most :minutes minutes old.
+`(GET) /reports/:report_id` - Return the report with the given ID.
 
-`(GET) /report/near/:lat/:lon/:distance` - Returns all the reports that are within :distance miles of :lat, :lon
+`(PUT) /reports/upvote/:report_id` - Upvotes the given report_id
 
-`(GET) /report/:report_id` - Return the report with the given ID.
+`(PUT) /reports/downvote/:report_id` - Downvotes the given report_id.
 
-`(PUT) /report/upvote/:report_id` - Upvotes the given report_id
-
-`(PUT) /report/downvote/:report_id` - Downvotes the given report_id.
-
-`(PUT) /report/novote/:report_id` - Removes any upvotes or downvotes on the given report.
+`(PUT) /reports/novote/:report_id` - Removes any upvotes or downvotes on the given report.
 
 ### Subscriptions  (see [`/routes/subscribe.js`](https://github.com/6170-fa14/gjvargas_sturlag_hsubrama_proj3/blob/master/routes/subscribe.js))
 
-`(POST) /subscribe` - Makes a subscription.
+`(POST) /subscriptions` - Makes a subscription.
 
-`(DELETE) /subscribe/:subscription_id` - Deletes a subscription.
+`(DELETE) /subscriptions/:subscription_id` - Deletes a subscription.
 
-`(PUT) /subscribe/:subscription_id` - Updates a subscription.
+`(PUT) /subscriptions/:subscription_id` - Updates a subscription.
 
-`(GET) /subscribe` - Returns all the subscriptions for a given user.
+`(GET) /subscriptions` - Returns all the subscriptions for a given user.
 
 ## Response to 3.1 Feedback
 
