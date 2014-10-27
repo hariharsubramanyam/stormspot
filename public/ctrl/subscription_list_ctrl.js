@@ -18,6 +18,14 @@
       data.result.forEach(function(subscription){
         var elem = $(Handlebars.templates.list_element({"subscription": subscription}));
         html.append(elem);
+
+        var btn_delete = elem.find("#btn_delete");
+
+        btn_delete.click(function(){
+          Global.subscribe.delete(subscription.subscription_id, function(){
+            SubscriptionListCtrl("list-div", function(){});
+          });
+        });
       });
     })
   };
