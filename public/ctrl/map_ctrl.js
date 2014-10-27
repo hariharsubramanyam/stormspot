@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Giancarlo (and Harihar)
  * This file defines the controller for the map.
  */
 (function() {

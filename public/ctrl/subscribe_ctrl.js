@@ -1,3 +1,6 @@
+/**
+ * Lead Author: Giancarlo.
+ */
 (function() {
   var SubscribeCtrl = function(subscribe_div_name, e, callback) {
     var div = $("#"+subscribe_div_name);

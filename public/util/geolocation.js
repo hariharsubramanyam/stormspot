@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines a utility function for getting the user's current location.
  */
 (function() {

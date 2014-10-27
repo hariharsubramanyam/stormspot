@@ -1,3 +1,6 @@
+/**
+ * Lead Author: Giancarlo.
+ */
 (function() {
   var ReportSubscribePopupCtrl = function(map) {
     var markerHTML = $(Handlebars.templates.marker());

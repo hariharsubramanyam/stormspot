@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar.
  * This file defines the controller for a marker that is made for a particular report.
  */
 (function() {

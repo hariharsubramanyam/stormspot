@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines the User model. There is exactly one User document for each user.
  *
  * Each User contains a username and a hash of their password.

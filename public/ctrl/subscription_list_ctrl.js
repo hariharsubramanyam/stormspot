@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Giancarlo.
  * This files defines the controller for the list.
  */
 (function() {

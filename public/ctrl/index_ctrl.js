@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines the controller for index.html
  */
 (function() {

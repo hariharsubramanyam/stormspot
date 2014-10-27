@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar.
  * This file defines functions for communicating with the authentication API.
  */
 (function() {

@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines the Subscription model.
  *
  * A user can subscribe to receive text messages when there are severe storms near them.

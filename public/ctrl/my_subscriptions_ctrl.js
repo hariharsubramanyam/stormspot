@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Guillermo.
  * This files defines the controller for the subscriptions buttons.
  */
 (function() {
