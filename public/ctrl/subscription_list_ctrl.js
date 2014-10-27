@@ -30,5 +30,6 @@
     })
   };
 
+  // Make the controller globally available.
   Global.SubscriptionListCtrl = SubscriptionListCtrl;
 })();

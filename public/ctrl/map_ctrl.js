@@ -43,6 +43,8 @@
     update_map();
 
     var that = {};
+
+    // Hide the popups on the map.
     that.hidePopups = function() {
       for (var key in marker_for_report_id) {
         marker_for_report_id[key].closePopup();
@@ -52,5 +54,6 @@
   };
 
 
+  // Make the controller globally available.
   Global.MapCtrl = MapCtrl;
 })();
