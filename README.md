@@ -15,7 +15,7 @@
 
 ## Description
 
-We've implemented the **backend API** for this part of the project. The **frontend** is currently a simple test page where you can issue requests to the server and see the responses. This is to show that the available API functionality works.
+StormSpot is an app for reporting severe weathers. You can **view storm reports** on a map. You can **report storms** so that other people are notified. You can **subscribe for text message alerts** when there are storms near your area.
 
 ## API
 
