@@ -20,6 +20,7 @@ var app = express();
 var auth_route = require('./routes/auth').initialize(mongoose);
 var report_route = require('./routes/report').initialize(mongoose);
 var subscribe_route = require('./routes/subscribe').initialize(mongoose);
+var testing_route = require('./routes/testing').initialize(mongoose);
 
 
 // view engine setup
@@ -39,6 +40,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/auth', auth_route);
 app.use('/reports', report_route);
 app.use('/subscriptions', subscribe_route);
+
+// We don't use the testing route in production.
+//app.use('/testing', subscribe_route);
+
 
 
 /// catch 404 and forward to error handler
