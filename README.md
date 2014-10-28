@@ -6,6 +6,8 @@ StormSpot is an app for reporting severe weathers. You can **view storm reports*
 
 ## Usage
 
+Check out the [app demo](https://www.youtube.com/watch?v=G7n9BIvYUT4&feature=youtu.be).
+
 1. Navigate to [http://storm-hariharfritter.rhcloud.com](http://storm-hariharfritter.rhcloud.com)
 
 **or**
