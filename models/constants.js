@@ -15,4 +15,4 @@ module.exports.SALT = 10;
  * This is the radius in which subscribers will receive
  * alerts of nearby storms.
  */
-module.exports.MAX_RADIUS = 50;
+module.exports.MAX_RADIUS = 1000;
