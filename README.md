@@ -55,6 +55,14 @@ StormSpot is an app for reporting severe weathers. You can **view storm reports*
 
 `(GET) /subscriptions` - Returns all the subscriptions for a given user.
 
+## Response to 3.2 Feedback
+
+Not including an the "error" field in the JSON response is a good idea. However, since we had already implemented the backend and most of the frontend by the time we got the feedback, and since removing the "error" field would require a number of changes on both the frontend and backend, we decided to focus our efforts on other features which needed to be created or improved.
+
+We changed the routes so that they are nouns instead of verbs (report -> reports, subscribe -> subscriptions). We also removed some unused routes and ensured that we did not attempt to do filtering with URL components.
+
+We wrote the lead author for the code files.
+
 ## Response to 3.1 Feedback
 
 Although session might not need to be in our data model, we currently are
