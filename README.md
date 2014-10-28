@@ -2,6 +2,8 @@
 
 ## Usage
 
+Check out the app demo on [YouTube](https://www.youtube.com/watch?v=G7n9BIvYUT4&feature=youtu.be).
+
 1. Navigate to [http://storm-hariharfritter.rhcloud.com](http://storm-hariharfritter.rhcloud.com)
 
 **or**
