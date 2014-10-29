@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines one route for testing which drops all the elements in the database.
  *
  * This function is only used for the P3.2 test script. It will be removed for P3.3.

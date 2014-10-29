@@ -1,4 +1,5 @@
 /**
+ * Lead Author: Harihar
  * This file defines the Report model.
  *
  * A report is made about a storm event.
