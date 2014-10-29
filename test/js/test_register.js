@@ -1,3 +1,6 @@
+/**
+ * Lead Author: Harihar
+ */
 (function() {
   var test = function(callback) {
     var username = "User" + (new Date()).getTime();
